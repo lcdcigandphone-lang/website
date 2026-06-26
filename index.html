@@ -297,22 +297,19 @@
 
         @media (min-width: 1024px) {
             .combined-container {
-                /* C'EST ÇA QUI EMPÊCHE LE BUG DE COUPURE : minmax(0, 1fr) */
                 grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
                 gap: 60px;
             }
         }
 
-        /* Les deux colonnes ont les mêmes espacements internes pour s'aligner */
         .location-column, .contact-column {
             display: flex;
             flex-direction: column;
-            gap: 30px; /* L'écart parfait entre le titre et le contenu en dessous */
-            min-width: 0; /* Obligatoire pour éviter les débordements */
+            gap: 30px;
+            min-width: 0;
             width: 100%;
         }
 
-        /* Design unifié pour les deux titres */
         .section-header { text-align: center; }
         .section-header h2 {
             font-size: 28px; color: #ffffff; text-transform: uppercase;
@@ -365,61 +362,54 @@
         .left-arrow { left: -20px; }
         .right-arrow { right: -20px; }
 
-        /* FORMULAIRE DE CONTACT (Sans le titre à l'intérieur) */
+        /* FORMULAIRE DE CONTACT */
         .contact-container {
             width: 100%; background-color: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px;
             padding: 40px 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.5);
             animation: formReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         
-        /* Importation des polices pour les réseaux sociaux (Satisfy et Poppins) */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Satisfy&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Satisfy&display=swap');
 
-/* =====================================================================
-   RÉSEAUX SOCIAUX STYLE PILULE COURBÉE (À DROITE)
-   ===================================================================== */
 .social-header-pills {
     position: absolute;
     top: 15px; 
-    left: calc(50% + 220px); /* Positionné à droite du logo central */
+    left: calc(50% + 220px);
     display: flex;
-    flex-direction: column; /* Empilés verticalement pour ne pas déborder */
-    gap: 8px; /* Espace entre les pilules */
+    flex-direction: column;
+    gap: 8px;
     z-index: 110;
 }
 
-/* Élément individuel (pilule entière cliquable) */
 .sh-item {
     display: flex;
     align-items: center;
     position: relative;
     text-decoration: none;
-    transform: scale(0.85); /* Légèrement réduit pour s'adapter à l'en-tête */
+    transform: scale(0.85);
     transition: transform 0.3s ease;
     transform-origin: left center;
 }
 
 .sh-item:hover {
-    transform: scale(0.90); /* Petit effet de zoom au survol */
+    transform: scale(0.90);
 }
 
-/* Le bloc de texte blanc avec les coins arrondis */
 .sh-text-block {
     background-color: #FFFFFF;
     width: 145px;
     height: 44px;
     border-radius: 22px;
-    padding: 6px 15px 6px 40px; /* Espace à gauche pour l'icône */
+    padding: 6px 15px 6px 40px;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: -22px; /* S'enfonce derrière le cercle */
+    margin-left: -22px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     z-index: 1;
 }
 
-/* La forme qui lie le cercle au rectangle proprement */
 .sh-text-block:before {
     content: '';
     position: absolute;
@@ -432,7 +422,6 @@
     z-index: -1;
 }
 
-/* Le conteneur du cercle de l'icône avec le dégradé */
 .sh-icon-wrapper {
     position: absolute;
     left: -22px;
@@ -448,7 +437,6 @@
     z-index: 2;
 }
 
-/* Textes à l'intérieur */
 .sh-username {
     font-family: 'Satisfy', cursive;
     font-size: 16px;
@@ -465,22 +453,16 @@
     margin-top: 2px;
 }
 
-/* L'icône blanche SVG */
 .sh-icon-wrapper svg {
     width: 20px;
     height: 20px;
     fill: #FFFFFF;
 }
 
-/* --- DÉGRADÉS SPÉCIFIQUES --- */
-/* Facebook */
 .sh-item.fb .sh-icon-wrapper { background: linear-gradient(135deg, #1877F2 0%, #4267B2 100%); }
-/* Instagram */
 .sh-item.ig .sh-icon-wrapper { background: conic-gradient(from 135deg at 50% 50%, #FF9900, #FF00FF, #800080, #00BFFF); }
-/* TikTok (Dégradé noir premium) */
 .sh-item.tk .sh-icon-wrapper { background: linear-gradient(135deg, #000000 0%, #2b2b2b 100%); }
 
-/* Responsive Smartphones & Tablettes */
 @media (max-width: 1024px) {
     .social-header-pills { left: calc(50% + 180px); }
 }
@@ -488,7 +470,7 @@
     .social-header-pills {
         position: relative;
         top: 0; left: 0;
-        flex-direction: row; /* Aligné horizontalement sur téléphone */
+        flex-direction: row;
         justify-content: center;
         flex-wrap: wrap;
         margin-top: 15px;
@@ -565,12 +547,6 @@
         }
         .tiktok-wrapper:hover { border-color: var(--green-tech); box-shadow: 0 0 20px var(--green-glow); transform: translateY(-5px); }
         .tiktok-wrapper blockquote { margin: 0 !important; padding: 0 !important; width: 100% !important; height: 100% !important; position: absolute; top: 0; left: 0; }
-        .tiktok-wrapper blockquote > div > div:nth-child(2) { display: none !important; }
-        .tiktok-wrapper blockquote > div > div:nth-child(3) { display: none !important; }
-        .tiktok-wrapper [class*="interaction-container"] { display: none !important; }
-        .tiktok-wrapper [class*="author-avatar"] { display: none !important; }
-        .tiktok-wrapper [class*="tiktok-button"] { display: none !important; }
-        .tiktok-wrapper blockquote > div > div:nth-child(1) { height: 100% !important; margin-bottom: 0 !important; }
 
         .footer-bottom {
             text-align: center; padding-top: 15px; border-top: 1px solid #2a2a2a;
@@ -637,11 +613,11 @@
         
 
         <div class="quali-repar-container">
-            <img src="Gemini_Generated_Image_qvra92qvra92qvra.png" alt="Label QualiRépar">
+            <img src="Gemini_Generated_Image_qvra92qvra92qvra.png" alt="Label QualiRépar" loading="lazy">
         </div>
 
         <div class="logo-container">
-            <img src="cigandphone-pornic (3).png" alt="Cig & Phone Logo">
+            <img src="cigandphone-pornic-3.png" alt="Cig & Phone Logo">
         </div>
 
         <nav>
@@ -708,7 +684,6 @@
     <!-- SCRIPTS -->
     <script async src="https://www.tiktok.com/embed.js"></script>
     <script>
-        /* SCRIPT POUR LE FORMULAIRE */
         const contactForm = document.getElementById('dynamic-form');
         const storeSelect = document.getElementById('store');
 
@@ -728,7 +703,6 @@
             }
         });
 
-        /* SCRIPT POUR LE DEFILEMENT DES AVIS */
         function scrollReviews(direction) {
             const container = document.getElementById('reviews-slider');
             const scrollAmount = 300 * direction; 
@@ -743,7 +717,6 @@
             <!-- COLONNE GAUCHE : CARTE ET AVIS -->
             <div class="location-column">
                 
-                <!-- Titre de la colonne de gauche -->
                 <div class="section-header">
                     <h2>NOTRE <span>BOUTIQUE</span></h2>
                     <p>Venez nous rendre visite ou découvrez l'avis de nos clients !</p>
@@ -795,14 +768,13 @@
             <!-- COLONNE DROITE : FORMULAIRE DE CONTACT -->
             <div class="contact-column">
 
-                <!-- Titre de la colonne de droite (Exactement au même niveau que l'autre) -->
                 <div class="section-header">
                     <h2>CONTACTEZ-<span>NOUS</span></h2>
                     <p>Une question ou une demande de tarif ?</p>
                 </div>
 
                 <div class="contact-container">
-                    <form id="dynamic-form" action="https://formspree.io/f/VOTRE_IDENTIFIANT_CIG_AND_PHONE" method="POST">
+                    <form id="dynamic-form" action="https://formspree.io/f/xdajakww" method="POST">
                         <div class="form-grid">
                             <div class="form-group full-width">
                                 <label for="store">POUR QUEL MAGASIN ?</label>
