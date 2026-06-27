@@ -28,9 +28,9 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
 .card-1{transform:translate(-50%,-50%) rotateY(0deg)   translateZ(clamp(260px,30vw,360px));}
 .card-2{transform:translate(-50%,-50%) rotateY(120deg) translateZ(clamp(260px,30vw,360px));}
 .card-3{transform:translate(-50%,-50%) rotateY(240deg) translateZ(clamp(260px,30vw,360px));}
-.card-1{background-image:url('cig--phone-pornic-reparationtelephone.jpg');}
-.card-2{background-image:url('20260520_184840.jpg');}
-.card-3{background-image:url('atelier.jpeg');}
+.card-1{background-image:url('cigandphone-pornic.jpg');}
+.card-2{background-image:url('result_0.jpg');}
+.card-3{background-image:url('erasebg-transformed.jpg');}
 .card-inner{position:relative;z-index:2;text-align:center;width:100%;}
 .card-inner h2{font-size:clamp(18px,2.2vw,24px);font-weight:800;text-transform:uppercase;color:#fff;line-height:1.2;text-shadow:0 2px 10px rgba(0,0,0,.9);}
 .card-inner .city{font-size:13px;color:#bbb;margin-top:6px;letter-spacing:1px;}
@@ -88,66 +88,29 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
 
 <script>
 const wheel = document.getElementById('wheel');
+const BASE_SPEED = 360 / 28000;
+let curAngle = 0, extraVel = 0, lastTs = performance.now(), raf;
+function applyAngle(a){wheel.style.transform=`rotateY(${a}deg)`;}
+function loop(ts){const dt=ts-lastTs;lastTs=ts;curAngle+=BASE_SPEED*dt+extraVel;extraVel*=0.94;if(Math.abs(extraVel)<0.01)extraVel=0;applyAngle(curAngle);raf=requestAnimationFrame(loop);}
+raf=requestAnimationFrame(loop);
+let drag=false,lastX=0;
+function startDrag(x){drag=true;lastX=x;}
+function moveDrag(x){if(!drag)return;const dx=x-lastX;extraVel=dx*0.45;curAngle+=dx*0.38;lastX=x;}
+function endDrag(){drag=false;}
+wheel.addEventListener('mousedown',e=>startDrag(e.clientX));
+document.addEventListener('mousemove',e=>moveDrag(e.clientX));
+document.addEventListener('mouseup',endDrag);
+wheel.addEventListener('touchstart',e=>startDrag(e.touches[0].clientX),{passive:true});
+document.addEventListener('touchmove',e=>moveDrag(e.touches[0].clientX),{passive:true});
+document.addEventListener('touchend',endDrag);
+document.addEventListener('wheel',e=>{e.preventDefault();extraVel+=-e.deltaY*0.03;},{passive:false});
 
-/* Vitesse de base : 360deg en 28s */
-const BASE_SPEED = 360 / 28000; /* deg/ms */
-
-let curAngle = 0;
-let extraVel = 0;   /* vitesse extra ajoutee par drag/molette, decroit */
-let lastTs   = performance.now();
-let raf;
-
-function applyAngle(a) {
-  wheel.style.transform = `rotateY(${a}deg)`;
-}
-
-/* Boucle principale unique — auto-spin + inertie extra */
-function loop(ts) {
-  const dt = ts - lastTs;
-  lastTs = ts;
-  /* L'auto-spin tourne toujours */
-  curAngle += BASE_SPEED * dt + extraVel;
-  /* L'inertie extra s'amortit */
-  extraVel *= 0.94;
-  if (Math.abs(extraVel) < 0.01) extraVel = 0;
-  applyAngle(curAngle);
-  raf = requestAnimationFrame(loop);
-}
-raf = requestAnimationFrame(loop);
-
-/* --- Drag --- */
-let drag = false, lastX = 0;
-function startDrag(x) { drag=true; lastX=x; }
-function moveDrag(x) {
-  if (!drag) return;
-  const dx = x - lastX;
-  extraVel = dx * 0.45;
-  curAngle += dx * 0.38;
-  lastX = x;
-}
-function endDrag() { drag = false; }
-
-wheel.addEventListener('mousedown',  e => startDrag(e.clientX));
-document.addEventListener('mousemove', e => moveDrag(e.clientX));
-document.addEventListener('mouseup',   endDrag);
-wheel.addEventListener('touchstart', e => startDrag(e.touches[0].clientX), {passive:true});
-document.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX), {passive:true});
-document.addEventListener('touchend',  endDrag);
-
-/* --- Molette : nudge tres doux dans le sens du scroll --- */
-document.addEventListener('wheel', e => {
-  e.preventDefault();
-  /* Un cran standard (deltaY~100) = ~3 deg d'impulsion */
-  extraVel += -e.deltaY * 0.03;
-}, {passive: false});
-
-/* === SMARTPHONE THREE.JS === */
 (function(){
   const canvas=document.getElementById('hub-canvas');
-  const W=canvas.offsetWidth||190, H=canvas.offsetHeight||230;
-  canvas.width=W*devicePixelRatio; canvas.height=H*devicePixelRatio;
+  const W=canvas.offsetWidth||190,H=canvas.offsetHeight||230;
+  canvas.width=W*devicePixelRatio;canvas.height=H*devicePixelRatio;
   const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-  renderer.setPixelRatio(devicePixelRatio); renderer.setSize(W,H); renderer.setClearColor(0x000000,0);
+  renderer.setPixelRatio(devicePixelRatio);renderer.setSize(W,H);renderer.setClearColor(0x000000,0);
   const scene3=new THREE.Scene();
   const camera=new THREE.PerspectiveCamera(38,W/H,0.1,100);
   camera.position.set(0,0,3.8);
@@ -159,31 +122,30 @@ document.addEventListener('wheel', e => {
   const mL=new THREE.LineBasicMaterial({color:G,transparent:true,opacity:0.2});
   const mR=new THREE.MeshBasicMaterial({color:G,transparent:true,opacity:0.28});
   const mD=new THREE.MeshBasicMaterial({color:G});
-  const phone=new THREE.Group(); scene3.add(phone);
+  const phone=new THREE.Group();scene3.add(phone);
   const bGeo=new THREE.BoxGeometry(0.55,1.1,0.07,4,8,2);
   phone.add(new THREE.Mesh(bGeo,mF),new THREE.Mesh(bGeo,mW),new THREE.LineSegments(new THREE.EdgesGeometry(bGeo),mE));
-  const scr=new THREE.Mesh(new THREE.PlaneGeometry(0.38,0.62,2,4),mS); scr.position.set(0,0.08,0.037); phone.add(scr);
-  const lp=[]; for(let i=0;i<10;i++){const y=-0.26+i*(0.58/9);lp.push(new THREE.Vector3(-0.18,y,0.038),new THREE.Vector3(0.18,y,0.038));}
+  const scr=new THREE.Mesh(new THREE.PlaneGeometry(0.38,0.62,2,4),mS);scr.position.set(0,0.08,0.037);phone.add(scr);
+  const lp=[];for(let i=0;i<10;i++){const y=-0.26+i*(0.58/9);lp.push(new THREE.Vector3(-0.18,y,0.038),new THREE.Vector3(0.18,y,0.038));}
   phone.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(lp),mL));
   const notch=new THREE.Mesh(new THREE.CylinderGeometry(0.032,0.032,0.012,10),new THREE.MeshBasicMaterial({color:G,transparent:true,opacity:0.7}));
-  notch.rotation.x=Math.PI/2; notch.position.set(0,0.47,0.038); phone.add(notch);
+  notch.rotation.x=Math.PI/2;notch.position.set(0,0.47,0.038);phone.add(notch);
   const home=new THREE.Mesh(new THREE.RingGeometry(0.038,0.062,16),new THREE.MeshBasicMaterial({color:G,transparent:true,opacity:0.55,side:THREE.DoubleSide}));
-  home.position.set(0,-0.44,0.038); phone.add(home);
-  const ring1=new THREE.Mesh(new THREE.TorusGeometry(0.72,0.008,6,55),mR); ring1.rotation.x=Math.PI/2;
-  const ring2=new THREE.Mesh(new THREE.TorusGeometry(0.72,0.006,6,55),mR.clone()); ring2.material.opacity=0.15; ring2.rotation.set(Math.PI/3,0,Math.PI/5);
+  home.position.set(0,-0.44,0.038);phone.add(home);
+  const ring1=new THREE.Mesh(new THREE.TorusGeometry(0.72,0.008,6,55),mR);ring1.rotation.x=Math.PI/2;
+  const ring2=new THREE.Mesh(new THREE.TorusGeometry(0.72,0.006,6,55),mR.clone());ring2.material.opacity=0.15;ring2.rotation.set(Math.PI/3,0,Math.PI/5);
   scene3.add(ring1,ring2);
   const d1=new THREE.Mesh(new THREE.SphereGeometry(0.034,8,8),mD);
   const d2=new THREE.Mesh(new THREE.SphereGeometry(0.025,8,8),mD.clone());
   scene3.add(d1,d2);
   let t=0;
-  (function anim(){
-    requestAnimationFrame(anim); t+=0.012;
-    phone.rotation.y=t*0.7; phone.rotation.x=Math.sin(t*0.31)*0.32; phone.rotation.z=Math.sin(t*0.19)*0.09;
-    ring1.rotation.z=t*0.38; ring2.rotation.y=t*0.52;
+  (function anim(){requestAnimationFrame(anim);t+=0.012;
+    phone.rotation.y=t*0.7;phone.rotation.x=Math.sin(t*0.31)*0.32;phone.rotation.z=Math.sin(t*0.19)*0.09;
+    ring1.rotation.z=t*0.38;ring2.rotation.y=t*0.52;
     d1.position.set(Math.cos(t*0.8)*0.72,Math.sin(t*0.8)*0.1,Math.sin(t*0.8)*0.72);
     d2.position.set(Math.cos(t*0.55+Math.PI)*0.72*Math.cos(Math.PI/3),Math.sin(t*0.55+Math.PI)*0.72,Math.cos(t*0.55+Math.PI)*0.72*Math.sin(Math.PI/3));
     const p=0.5+0.5*Math.sin(t*1.8);
-    mW.opacity=0.3+0.18*p; mE.opacity=0.65+0.25*p; ring1.material.opacity=0.18+0.14*p; mL.opacity=0.12+0.1*p;
+    mW.opacity=0.3+0.18*p;mE.opacity=0.65+0.25*p;ring1.material.opacity=0.18+0.14*p;mL.opacity=0.12+0.1*p;
     renderer.render(scene3,camera);
   })();
 })();
