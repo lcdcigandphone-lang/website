@@ -64,22 +64,41 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 </div>
 <script>
 const stores = {
-  cigphone:   { name:"Cig & Phone",      city:"Pornic",         lat:47.1123, lng:-2.1019, url:"cigphone.html" },
-  sosinfo:    { name:"SOS Info.Mobile",  city:"Saint-Philbert", lat:47.0367, lng:-1.6443, url:"sos-info-mobile.html" },
-  smartelier: { name:"Le Smart'elier",  city:"Machecoul",      lat:46.9893, lng:-1.8229, url:"le-smartelier.html" }
+  cigphone:   {
+    name: "Cig & Phone",
+    city: "Pornic",
+    addr: "2 rue du Canal, 44210 Pornic",
+    lat: 47.11365, lng: -2.10285,
+    url: "cigphone.html"
+  },
+  sosinfo:    {
+    name: "SOS Info.Mobile",
+    city: "Saint-Philbert",
+    addr: "9c rue du Port, Saint-Philbert-de-Grand-Lieu",
+    lat: 47.03520, lng: -1.64490,
+    url: "sos-info-mobile.html"
+  },
+  smartelier: {
+    name: "Le Smart'elier",
+    city: "Machecoul",
+    addr: "11 rue du March\u00e9, 44270 Machecoul",
+    lat: 46.98870, lng: -1.82780,
+    url: "le-smartelier.html"
+  }
 };
 const key = new URLSearchParams(window.location.search).get('to') || 'cigphone';
 const store = stores[key] || stores.cigphone;
 document.getElementById('lbl-name').textContent = store.name;
 document.getElementById('lbl-city').textContent = '📍 ' + store.city;
-document.getElementById('mapframe').src = `https://maps.google.com/maps?q=${store.lat},${store.lng}&t=k&z=16&ie=UTF8&iwloc=&output=embed`;
+// Embed avec adresse textuelle pour précision maximale
+const q = encodeURIComponent(store.addr);
+document.getElementById('mapframe').src = `https://maps.google.com/maps?q=${q}&t=k&z=17&ie=UTF8&iwloc=&output=embed`;
 
 const el = id => document.getElementById(id);
 function fade(elem,to,dur,cb){
   const start=parseFloat(elem.style.opacity)||0, diff=to-start, t0=performance.now();
   (function step(t){const p=Math.min((t-t0)/dur,1);elem.style.opacity=start+diff*p;p<1?requestAnimationFrame(step):cb&&cb();})(t0);
 }
-
 const ctx = new (window.AudioContext||window.webkitAudioContext)();
 function playWhoosh(){
   const buf=ctx.createBuffer(1,ctx.sampleRate*1.2,ctx.sampleRate), d=buf.getChannelData(0);
@@ -95,7 +114,6 @@ function playBeep(){
   g.gain.setValueAtTime(0.12,ctx.currentTime); g.gain.linearRampToValueAtTime(0,ctx.currentTime+0.1);
   o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1);
 }
-
 let hudInterval;
 function animateHud(){
   let alt=8000, spd=320;
@@ -107,10 +125,8 @@ function animateHud(){
     el('hud-spd').textContent='SPD: '+Math.round(spd)+' km/h';
   },120);
 }
-
 const frame=el('mapframe');
-let currentScale=1, zoomSteps=0;
-const maxZoom=12;
+let currentScale=1, zoomSteps=0, maxZoom=12;
 function doZoomStep(){
   if(zoomSteps>=maxZoom) return; zoomSteps++;
   currentScale*=1.22;
@@ -119,7 +135,6 @@ function doZoomStep(){
   const dx=(Math.random()-0.5)*4*(maxZoom-zoomSteps), dy=(Math.random()-0.5)*4*(maxZoom-zoomSteps);
   frame.style.transformOrigin=`calc(50% + ${dx}px) calc(50% + ${dy}px)`;
 }
-
 async function run(){
   ctx.resume();
   await new Promise(r=>setTimeout(r,400));
@@ -134,7 +149,6 @@ async function run(){
     await new Promise(r=>setTimeout(r,280+Math.random()*120));
     doZoomStep();
   }
-  // 1 seul beep au moment où le nom apparaît
   await new Promise(r=>setTimeout(r,300));
   fade(el('store-label'),1,600);
   setTimeout(()=>{ el('lbl-bar').style.width='100%'; },100);
