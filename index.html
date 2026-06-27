@@ -33,20 +33,150 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
 .card-inner .city{font-size:13px;color:#bbb;margin-top:6px;letter-spacing:1px;}
 .card-inner .btn-go{display:inline-block;margin-top:16px;background:var(--g);color:#000;font-size:13px;font-weight:800;padding:10px 28px;border-radius:30px;text-transform:uppercase;letter-spacing:2px;box-shadow:0 0 18px var(--gg);transition:transform .2s,box-shadow .2s;}
 .card:hover .btn-go{transform:scale(1.07);box-shadow:0 0 30px var(--g);}
-.hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90px;height:90px;border-radius:50%;background:var(--dc);border:2px solid var(--g);box-shadow:0 0 25px var(--gg),inset 0 0 15px rgba(0,255,0,.08);display:flex;align-items:center;justify-content:center;z-index:30;}
-.hub svg{width:52px;height:52px;animation:spinGear 8s linear infinite;filter:drop-shadow(0 0 6px #00ff00);}
+
+/* === HUB SMARTPHONE HOLOGRAMME === */
+.hub{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:100px;height:100px;
+  display:flex;align-items:center;justify-content:center;
+  z-index:30;
+}
+.hub-glow{
+  position:absolute;inset:-18px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(0,255,0,0.18) 0%,transparent 70%);
+  animation:pulseGlow 2.4s ease-in-out infinite;
+}
+.hub-ring{
+  position:absolute;inset:-8px;
+  border-radius:50%;
+  border:1.5px solid rgba(0,255,0,0.4);
+  animation:ringPulse 2.4s ease-in-out infinite;
+}
+.hub-ring2{
+  position:absolute;inset:-20px;
+  border-radius:50%;
+  border:1px solid rgba(0,255,0,0.15);
+  animation:ringPulse 2.4s ease-in-out infinite 0.8s;
+}
+
+/* Smartphone 3D CSS */
+.phone-3d{
+  width:38px;height:64px;
+  position:relative;
+  transform-style:preserve-3d;
+  animation:phoneFloat 3s ease-in-out infinite, phoneSpin 8s linear infinite;
+  filter:drop-shadow(0 0 10px #00ff00) drop-shadow(0 0 24px rgba(0,255,0,0.5));
+}
+.phone-face{
+  position:absolute;inset:0;
+  border-radius:7px;
+  border:2px solid #00ff00;
+  background:rgba(0,20,0,0.85);
+  overflow:hidden;
+  backface-visibility:hidden;
+}
+.phone-face::before{
+  content:'';
+  position:absolute;
+  top:6px;left:50%;transform:translateX(-50%);
+  width:10px;height:2px;
+  background:rgba(0,255,0,0.5);
+  border-radius:2px;
+}
+.phone-face::after{
+  content:'';
+  position:absolute;
+  bottom:5px;left:50%;transform:translateX(-50%);
+  width:14px;height:14px;
+  border-radius:50%;
+  border:1.5px solid rgba(0,255,0,0.4);
+}
+.phone-screen{
+  position:absolute;
+  top:14px;left:3px;right:3px;bottom:24px;
+  background:rgba(0,255,0,0.06);
+  border-radius:3px;
+  overflow:hidden;
+}
+.phone-screen::before{
+  content:'';
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,rgba(0,255,0,0.08) 0px,rgba(0,255,0,0.08) 1px,transparent 1px,transparent 4px);
+  animation:screenScroll 1.2s linear infinite;
+}
+.phone-signal{
+  position:absolute;
+  top:4px;right:4px;
+  width:8px;height:5px;
+  display:flex;align-items:flex-end;gap:1px;
+}
+.phone-signal span{
+  display:block;width:2px;background:#00ff00;
+  animation:sigBlink 1.5s ease-in-out infinite;
+}
+.phone-signal span:nth-child(1){height:2px;animation-delay:0s;}
+.phone-signal span:nth-child(2){height:3px;animation-delay:0.2s;}
+.phone-signal span:nth-child(3){height:5px;animation-delay:0.4s;}
+
+.phone-back{
+  position:absolute;inset:0;
+  border-radius:7px;
+  background:rgba(0,40,0,0.9);
+  border:1.5px solid rgba(0,255,0,0.3);
+  transform:rotateY(180deg);
+  backface-visibility:hidden;
+}
+
+/* Particules orbitales */
+.orbit-wrap{
+  position:absolute;inset:0;
+  pointer-events:none;
+}
+.orbit{
+  position:absolute;top:50%;left:50%;
+  width:80px;height:80px;
+  margin:-40px 0 0 -40px;
+  border-radius:50%;
+  border:1px dashed rgba(0,255,0,0.15);
+  animation:orbitSpin 4s linear infinite;
+}
+.orbit2{
+  width:60px;height:60px;
+  margin:-30px 0 0 -30px;
+  border:1px dashed rgba(0,255,0,0.1);
+  animation:orbitSpin 6s linear infinite reverse;
+}
+.orbit-dot{
+  position:absolute;
+  top:-3px;left:50%;margin-left:-3px;
+  width:6px;height:6px;
+  border-radius:50%;
+  background:#00ff00;
+  box-shadow:0 0 6px #00ff00;
+}
+
+@keyframes pulseGlow{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+@keyframes ringPulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.9;transform:scale(1.08)}}
+@keyframes phoneFloat{0%,100%{transform:translateY(0) rotateX(8deg)}50%{transform:translateY(-5px) rotateX(-4deg)}}
+@keyframes phoneSpin{0%{transform:translateY(0) rotateY(0deg)}25%{transform:translateY(-4px) rotateY(90deg)}50%{transform:translateY(0) rotateY(180deg)}75%{transform:translateY(-4px) rotateY(270deg)}100%{transform:translateY(0) rotateY(360deg)}}
+@keyframes screenScroll{from{background-position:0 0}to{background-position:0 -20px}}
+@keyframes sigBlink{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes orbitSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+/* === FIN HUB === */
+
 .hint{position:relative;z-index:10;margin-top:18px;font-size:12px;color:#555;letter-spacing:2px;text-transform:uppercase;animation:blink 2.5s infinite;}
 @keyframes scan{0%{top:0}50%{top:100%}100%{top:0}}
 @keyframes autoSpin{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
 @keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
-@keyframes spinGear{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @media(max-width:600px){
   .card{width:180px;height:280px;padding:18px 14px;}
   .card-1{transform:translate(-50%,-50%) rotateY(0deg)   translateZ(200px);}
   .card-2{transform:translate(-50%,-50%) rotateY(120deg) translateZ(200px);}
   .card-3{transform:translate(-50%,-50%) rotateY(240deg) translateZ(200px);}
   .card-inner h2{font-size:15px;}
-  .hub{width:65px;height:65px;}.hub svg{width:38px;height:38px;}
+  .hub{width:75px;height:75px;}
+  .phone-3d{width:28px;height:48px;}
   .scene{height:58vh;}
   .top img{width:200px;}
 }
@@ -82,18 +212,28 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
         <span class="btn-go">Y aller →</span>
       </div>
     </a>
+
+    <!-- HUB SMARTPHONE HOLOGRAMME -->
     <div class="hub">
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M32 20a12 12 0 1 1 0 24 12 12 0 0 1 0-24z" fill="#00ff00" opacity="0.15"/>
-        <path d="M32 22a10 10 0 1 1 0 20 10 10 0 0 1 0-20z" stroke="#00ff00" stroke-width="2" fill="none"/>
-        <circle cx="32" cy="32" r="4" fill="#00ff00"/>
-        <path d="M29 8h6v5h-6zM29 51h6v5h-6zM8 29v6h5v-6zM51 29v6h5v-6z
-                 M14.2 14.2l4.2 4.2-3.5 3.5-4.2-4.2z
-                 M45.6 14.2l3.5 3.5-4.2 4.2-3.5-3.5z
-                 M14.2 49.8l3.5-3.5 4.2 4.2-3.5 3.5z
-                 M49.8 49.8l-4.2-4.2 3.5-3.5 4.2 4.2z" fill="#00ff00"/>
-      </svg>
+      <div class="hub-glow"></div>
+      <div class="hub-ring"></div>
+      <div class="hub-ring2"></div>
+      <div class="orbit-wrap">
+        <div class="orbit"><div class="orbit-dot"></div></div>
+        <div class="orbit orbit2"><div class="orbit-dot"></div></div>
+      </div>
+      <div class="phone-3d">
+        <div class="phone-face">
+          <div class="phone-screen">
+            <div class="phone-signal">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+        <div class="phone-back"></div>
+      </div>
     </div>
+
   </div>
 </div>
 <p class="hint">↔ Faites tourner • Cliquez pour entrer</p>
