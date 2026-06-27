@@ -89,9 +89,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 
 <script>
 const stores={
-  cigphone:  {name:"Cig & Phone",    city:"Pornic (44210)",                      lat:47.11531349438508, lng:-2.0978172850793193,url:"cigphone.html"},
-  sosinfo:   {name:"SOS Info.Mobile",city:"Saint-Philbert-de-Grand-Lieu (44310)",lat:47.039391,         lng:-1.641182,          url:"sos-info-mobile.html"},
-  smartelier:{name:"Le Smart'elier", city:"Machecoul-Saint-M\u00eame (44270)",    lat:46.992412232848764,lng:-1.820071743570542, url:"le-smartelier.html"}
+  cigphone:  {name:"Cig & Phone",    city:"Pornic (44210)",                      lat:47.11531349438508, lng:-2.0978172850793193, url:"cigphone.html"},
+  sosinfo:   {name:"SOS Info.Mobile",city:"Saint-Philbert-de-Grand-Lieu (44310)",lat:47.039391,          lng:-1.641182,           url:"home-sos-mobile.html"},
+  smartelier:{name:"Le Smart'elier", city:"Machecoul-Saint-M\u00eame (44270)",    lat:46.992412232848764, lng:-1.820071743570542,  url:"home-le-smartelier.html"}
 };
 const key=new URLSearchParams(window.location.search).get('to')||'cigphone';
 const store=stores[key]||stores.cigphone;
@@ -172,40 +172,36 @@ async function run(){
   let loadPct=0;
   const fillLoad=(target,dur)=>{const step=(target-loadPct)/(dur/70);return new Promise(r=>{const t=setInterval(()=>{loadPct=Math.min(target,loadPct+step);$('loading-fill').style.width=loadPct+'%';if(loadPct>=target){clearInterval(t);r();}},70);});};
 
-  // ── ZOOM 1 : 3 → 9 (continental + région en un seul saut) ──────────────────
   $('loading-lbl').textContent='Acquisition satellite';
   await fillLoad(28,600);
   await sleep(300);
   phaseIdx=1;
   $('loading-lbl').textContent='Triangulation GPS';
   beep(600,0.05,0.14);
-  await zoomTo(9, 600, 'REGIONAL VIEW');
+  await zoomTo(9,600,'REGIONAL VIEW');
   await fillLoad(50,500);
   await shake(4,3);
   fireSonar(2);
 
-  // ── ZOOM 2 : 9 → 15 (ville + rue en un seul saut) ────────────────────
   await sleep(300);
   phaseIdx=2;
   $('loading-lbl').textContent='Approche finale';
   beep(800,0.07,0.14);
-  await zoomTo(15, 580, 'STREET VIEW');
+  await zoomTo(15,580,'STREET VIEW');
   await fillLoad(78,450);
   await shake(6,5);
   fireSonar(3);
 
-  // ── ZOOM 3 : 15 → 18 (atterrissage) ─────────────────────────────
   await sleep(250);
   phaseIdx=3;
   $('loading-lbl').textContent='Verrouillage cible';
   beep(1000,0.08,0.14);
-  await zoomTo(18, 550, 'TARGET LOCKED');
+  await zoomTo(18,550,'TARGET LOCKED');
   await fillLoad(100,350);
   await shake(8,6);
   fireSonar(5);
   beepLock();
 
-  // ── Label boutique ──────────────────────────────────────────────
   await sleep(400);
   clearInterval(hudTimer);
   $('store-label').style.opacity='1';
@@ -213,7 +209,6 @@ async function run(){
   $('lbl-bar').style.width='100%';
   await sleep(1800);
 
-  // ── Sortie ────────────────────────────────────────────────────
   $('flash').style.opacity='1';
   await sleep(80);
   $('flash').style.opacity='0';
