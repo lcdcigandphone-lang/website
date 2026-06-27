@@ -9,20 +9,11 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;height:100%;overflow:hidden;background:#000;}
-#map-wrap{
-  position:fixed;
-  /* 25x plus grand que le viewport, centré */
-  width:2500vw;
-  height:2500vh;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%) scale(0.04);
-  transform-origin:center center;
-  z-index:1;
+#map{
+  position:fixed;inset:0;z-index:1;
   opacity:0;
-  transition:opacity 0.8s;
-  background:#1a1a1a;
+  transition:opacity 0.6s;
 }
-#map{width:100%;height:100%;}
 .vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%);}
 .scanlines{position:fixed;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.08) 0px,rgba(0,0,0,0.08) 1px,transparent 1px,transparent 3px);}
 .flash{position:fixed;inset:0;z-index:10;background:#fff;opacity:0;pointer-events:none;}
@@ -43,7 +34,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 </style>
 </head>
 <body>
-<div id="map-wrap"><div id="map"></div></div>
+<div id="map"></div>
 <div class="vignette"></div>
 <div class="scanlines"></div>
 <div class="flash" id="flash"></div>
@@ -88,11 +79,12 @@ document.getElementById('lbl-name').textContent = store.name;
 document.getElementById('lbl-city').textContent = '\uD83D\uDCCD ' + store.city;
 
 const el = id => document.getElementById(id);
-const wrap = document.getElementById('map-wrap');
+const mapEl = document.getElementById('map');
 
+// Leaflet démarre au zoom 5 (vue France) — les tuiles couvrent tout
 const map = L.map('map', {
   center: [store.lat, store.lng],
-  zoom: 18,
+  zoom: 5,
   zoomControl: false,
   attributionControl: false,
   dragging: false,
@@ -100,15 +92,30 @@ const map = L.map('map', {
   doubleClickZoom: false,
   keyboard: false,
   zoomAnimation: false,
-  fadeAnimation: false
+  fadeAnimation: false,
+  markerZoomAnimation: false
 });
-L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-  maxZoom: 19
+const tileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  maxZoom: 19,
+  keepBuffer: 4
 }).addTo(map);
 
-function cssZoom(scale, duration, easing){
-  wrap.style.transition = `transform ${duration}ms ${easing}`;
-  wrap.style.transform = `translate(-50%,-50%) scale(${scale})`;
+// Fondu entre 2 niveaux de zoom : masque, change zoom, démasque
+function zoomTo(z, fadeDur) {
+  return new Promise(resolve => {
+    // Fondu sortant
+    mapEl.style.transition = `opacity ${fadeDur*0.4}ms ease`;
+    mapEl.style.opacity = '0';
+    setTimeout(() => {
+      map.setZoom(z, {animate: false});
+      // Petite pause pour que les tuiles se placent
+      setTimeout(() => {
+        mapEl.style.transition = `opacity ${fadeDur*0.6}ms ease`;
+        mapEl.style.opacity = '1';
+        setTimeout(resolve, fadeDur * 0.6);
+      }, 80);
+    }, fadeDur * 0.4);
+  });
 }
 
 const actx = new (window.AudioContext||window.webkitAudioContext)();
@@ -135,52 +142,54 @@ function animateHud(){
 
 async function run(){
   actx.resume();
-  // Scale initial très petit mais map assez grande pour couvrir l'écran
-  wrap.style.transform = 'translate(-50%,-50%) scale(0.04)';
-  wrap.style.transition = 'none';
 
-  await new Promise(r=>setTimeout(r,400));
-  wrap.style.opacity = '1';
+  // Attendre que les tuiles zoom 5 soient chargées
+  await new Promise(r => setTimeout(r, 500));
+
+  // Fade in carte (zoom 5 = vue large, tuiles couvertes)
+  mapEl.style.transition = 'opacity 0.8s';
+  mapEl.style.opacity = '1';
   el('hud').style.opacity = '1';
   el('crosshair').style.opacity = '1';
   el('loading-wrap').style.opacity = '1';
   animateHud();
 
-  let loadPct=0;
-  const loadTimer=setInterval(()=>{
-    loadPct=Math.min(100,loadPct+Math.random()*3.5);
-    el('loading-fill').style.width=loadPct+'%';
-    if(loadPct>=100) clearInterval(loadTimer);
-  },160);
+  let loadPct = 0;
+  const loadTimer = setInterval(() => {
+    loadPct = Math.min(100, loadPct + Math.random() * 3.5);
+    el('loading-fill').style.width = loadPct + '%';
+    if (loadPct >= 100) clearInterval(loadTimer);
+  }, 160);
 
-  // À-coup 1 : continental → région (1.6s)
-  await new Promise(r=>setTimeout(r,200));
-  cssZoom(0.18, 1600, 'cubic-bezier(0.25,0.1,0.25,1)');
+  // À-coup 1 : zoom 5 → 11 (région), fondu 900ms, pause 1.4s
+  await new Promise(r => setTimeout(r, 800));
+  await zoomTo(11, 900);
 
-  // À-coup 2 : région → ville (1.8s)
-  await new Promise(r=>setTimeout(r,2200));
-  cssZoom(0.55, 1800, 'cubic-bezier(0.25,0.1,0.25,1)');
+  // À-coup 2 : zoom 11 → 15 (ville), fondu 900ms, pause 1.4s
+  await new Promise(r => setTimeout(r, 1400));
+  await zoomTo(15, 900);
 
-  // À-coup 3 : ville → adresse (2.0s)
-  await new Promise(r=>setTimeout(r,2400));
-  cssZoom(1, 2000, 'cubic-bezier(0.22,1,0.36,1)');
+  // À-coup 3 : zoom 15 → 18 (adresse), fondu 900ms
+  await new Promise(r => setTimeout(r, 1400));
+  await zoomTo(18, 900);
 
-  // Label pendant le dernier zoom
-  await new Promise(r=>setTimeout(r,900));
+  // Label boutique
+  await new Promise(r => setTimeout(r, 600));
   el('store-label').style.opacity = '1';
-  setTimeout(()=>{ el('lbl-bar').style.width='100%'; },100);
+  setTimeout(() => { el('lbl-bar').style.width = '100%'; }, 100);
   playBeep();
 
-  await new Promise(r=>setTimeout(r,1800));
+  // Pause finale
+  await new Promise(r => setTimeout(r, 1800));
   clearInterval(hudInterval);
 
-  el('flash').style.opacity='1';
-  await new Promise(r=>setTimeout(r,80));
-  el('flash').style.transition='opacity 0.5s'; el('flash').style.opacity='0';
-  await new Promise(r=>setTimeout(r,300));
-  el('blackout').style.transition='opacity 0.6s'; el('blackout').style.opacity='1';
-  await new Promise(r=>setTimeout(r,650));
-  window.location.href=store.url;
+  el('flash').style.opacity = '1';
+  await new Promise(r => setTimeout(r, 80));
+  el('flash').style.transition = 'opacity 0.5s'; el('flash').style.opacity = '0';
+  await new Promise(r => setTimeout(r, 300));
+  el('blackout').style.transition = 'opacity 0.6s'; el('blackout').style.opacity = '1';
+  await new Promise(r => setTimeout(r, 650));
+  window.location.href = store.url;
 }
 run();
 </script>
