@@ -34,18 +34,19 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
 .card-inner .btn-go{display:inline-block;margin-top:16px;background:var(--g);color:#000;font-size:13px;font-weight:800;padding:10px 28px;border-radius:30px;text-transform:uppercase;letter-spacing:2px;box-shadow:0 0 18px var(--gg);transition:transform .2s,box-shadow .2s;}
 .card:hover .btn-go{transform:scale(1.07);box-shadow:0 0 30px var(--g);}
 .hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90px;height:90px;border-radius:50%;background:var(--dc);border:2px solid var(--g);box-shadow:0 0 25px var(--gg),inset 0 0 15px rgba(0,255,0,.08);display:flex;align-items:center;justify-content:center;z-index:30;}
-.hub img{width:58px;height:58px;object-fit:contain;border-radius:50%;}
+.hub svg{width:52px;height:52px;animation:spinGear 8s linear infinite;filter:drop-shadow(0 0 6px #00ff00);}
 .hint{position:relative;z-index:10;margin-top:18px;font-size:12px;color:#555;letter-spacing:2px;text-transform:uppercase;animation:blink 2.5s infinite;}
 @keyframes scan{0%{top:0}50%{top:100%}100%{top:0}}
 @keyframes autoSpin{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
 @keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes spinGear{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @media(max-width:600px){
   .card{width:180px;height:280px;padding:18px 14px;}
   .card-1{transform:translate(-50%,-50%) rotateY(0deg)   translateZ(200px);}
   .card-2{transform:translate(-50%,-50%) rotateY(120deg) translateZ(200px);}
   .card-3{transform:translate(-50%,-50%) rotateY(240deg) translateZ(200px);}
   .card-inner h2{font-size:15px;}
-  .hub{width:65px;height:65px;}.hub img{width:42px;}
+  .hub{width:65px;height:65px;}.hub svg{width:38px;height:38px;}
   .scene{height:58vh;}
   .top img{width:200px;}
 }
@@ -82,7 +83,28 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
       </div>
     </a>
     <div class="hub">
-      <img src="bulle.png" alt="Mascotte">
+      <!-- Rouage SVG -->
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 20a12 12 0 1 1 0 24 12 12 0 0 1 0-24z" fill="#00ff00" opacity="0.15"/>
+        <path d="M32 22a10 10 0 1 1 0 20 10 10 0 0 1 0-20z" stroke="#00ff00" stroke-width="2" fill="none"/>
+        <circle cx="32" cy="32" r="4" fill="#00ff00"/>
+        <path d="
+          M32 10 L34.5 16.2 L38.5 13.5 L38.5 20.2
+          M54 32 L47.8 29.5 L50.5 25.5 L43.8 25.5
+          M32 54 L29.5 47.8 L25.5 50.5 L25.5 43.8
+          M10 32 L16.2 34.5 L13.5 38.5 L20.2 38.5
+          M45.6 18.4 L40.8 22.6 L44.2 26 L38.8 26
+          M45.6 45.6 L41.4 40.8 L38 44.2 L38 38.8
+          M18.4 45.6 L23.2 41.4 L19.8 38 L25.2 38
+          M18.4 18.4 L22.6 23.2 L26 19.8 L26 25.2
+        " stroke="#00ff00" stroke-width="2.2" stroke-linecap="round"/>
+        <!-- Dents du rouage -->
+        <path d="M29 8h6v5h-6zM29 51h6v5h-6zM8 29v6h5v-6zM51 29v6h5v-6z
+                 M14.2 14.2l4.2 4.2-3.5 3.5-4.2-4.2z
+                 M45.6 14.2l3.5 3.5-4.2 4.2-3.5-3.5z
+                 M14.2 49.8l3.5-3.5 4.2 4.2-3.5 3.5z
+                 M49.8 49.8l-4.2-4.2 3.5-3.5 4.2 4.2z" fill="#00ff00"/>
+      </svg>
     </div>
   </div>
 </div>
