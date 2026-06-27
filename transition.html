@@ -19,7 +19,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 .flash{position:fixed;inset:0;z-index:10;background:#fff;opacity:0;pointer-events:none;}
 .store-label{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:8;text-align:center;opacity:0;font-family:'Arial Black',sans-serif;white-space:nowrap;transition:opacity 0.7s;}
 .store-label .name{font-size:clamp(28px,5vw,52px);font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:4px;text-shadow:0 0 30px rgba(0,255,0,0.8),2px 2px 0 #000,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000;display:block;}
-.store-label .city{font-size:clamp(14px,2vw,20px);color:#00ff00;letter-spacing:6px;text-transform:uppercase;text-shadow:0 0 15px #00ff00;display:block;margin-top:6px;}
+.store-label .city{font-size:clamp(14px,2vw,20px);color:#00ff00;letter-spacing:4px;text-transform:uppercase;text-shadow:0 0 15px #00ff00;display:block;margin-top:6px;}
 .store-label .bar{display:block;width:0%;height:3px;background:#00ff00;box-shadow:0 0 10px #00ff00;margin:12px auto 0;transition:width 1.4s ease;}
 .hud{position:fixed;top:30px;left:30px;z-index:8;font-family:'Courier New',monospace;font-size:13px;color:rgba(0,255,0,0.7);opacity:0;line-height:1.8;transition:opacity 0.6s;}
 .hud span{display:block;}
@@ -69,9 +69,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 </div>
 <script>
 const stores = {
-  cigphone:   { name:"Cig & Phone",     city:"Pornic",         lat:47.11531349438508,  lng:-2.0978172850793193, url:"cigphone.html" },
-  sosinfo:    { name:"SOS Info.Mobile", city:"Saint-Philbert", lat:47.039391,          lng:-1.641182,           url:"sos-info-mobile.html" },
-  smartelier: { name:"Le Smart'elier", city:"Machecoul",      lat:46.992412232848764, lng:-1.820071743570542,  url:"le-smartelier.html" }
+  cigphone:   { name:"Cig & Phone",     city:"Pornic (44210)",                          lat:47.11531349438508,  lng:-2.0978172850793193, url:"cigphone.html" },
+  sosinfo:    { name:"SOS Info.Mobile", city:"Saint-Philbert-de-Grand-Lieu (44310)",    lat:47.039391,          lng:-1.641182,           url:"sos-info-mobile.html" },
+  smartelier: { name:"Le Smart'elier", city:"Machecoul-Saint-M\u00eame (44270)",         lat:46.992412232848764, lng:-1.820071743570542,  url:"le-smartelier.html" }
 };
 const key = new URLSearchParams(window.location.search).get('to') || 'cigphone';
 const store = stores[key] || stores.cigphone;
@@ -81,7 +81,6 @@ document.getElementById('lbl-city').textContent = '\uD83D\uDCCD ' + store.city;
 const el = id => document.getElementById(id);
 const mapEl = document.getElementById('map');
 
-// Leaflet démarre au zoom 5 (vue France) — les tuiles couvrent tout
 const map = L.map('map', {
   center: [store.lat, store.lng],
   zoom: 5,
@@ -95,20 +94,17 @@ const map = L.map('map', {
   fadeAnimation: false,
   markerZoomAnimation: false
 });
-const tileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
   maxZoom: 19,
   keepBuffer: 4
 }).addTo(map);
 
-// Fondu entre 2 niveaux de zoom : masque, change zoom, démasque
 function zoomTo(z, fadeDur) {
   return new Promise(resolve => {
-    // Fondu sortant
     mapEl.style.transition = `opacity ${fadeDur*0.4}ms ease`;
     mapEl.style.opacity = '0';
     setTimeout(() => {
       map.setZoom(z, {animate: false});
-      // Petite pause pour que les tuiles se placent
       setTimeout(() => {
         mapEl.style.transition = `opacity ${fadeDur*0.6}ms ease`;
         mapEl.style.opacity = '1';
@@ -142,47 +138,31 @@ function animateHud(){
 
 async function run(){
   actx.resume();
-
-  // Attendre que les tuiles zoom 5 soient chargées
   await new Promise(r => setTimeout(r, 500));
-
-  // Fade in carte (zoom 5 = vue large, tuiles couvertes)
   mapEl.style.transition = 'opacity 0.8s';
   mapEl.style.opacity = '1';
   el('hud').style.opacity = '1';
   el('crosshair').style.opacity = '1';
   el('loading-wrap').style.opacity = '1';
   animateHud();
-
   let loadPct = 0;
   const loadTimer = setInterval(() => {
     loadPct = Math.min(100, loadPct + Math.random() * 3.5);
     el('loading-fill').style.width = loadPct + '%';
     if (loadPct >= 100) clearInterval(loadTimer);
   }, 160);
-
-  // À-coup 1 : zoom 5 → 11 (région), fondu 900ms, pause 1.4s
   await new Promise(r => setTimeout(r, 800));
   await zoomTo(11, 900);
-
-  // À-coup 2 : zoom 11 → 15 (ville), fondu 900ms, pause 1.4s
   await new Promise(r => setTimeout(r, 1400));
   await zoomTo(15, 900);
-
-  // À-coup 3 : zoom 15 → 18 (adresse), fondu 900ms
   await new Promise(r => setTimeout(r, 1400));
   await zoomTo(18, 900);
-
-  // Label boutique
   await new Promise(r => setTimeout(r, 600));
   el('store-label').style.opacity = '1';
   setTimeout(() => { el('lbl-bar').style.width = '100%'; }, 100);
   playBeep();
-
-  // Pause finale
   await new Promise(r => setTimeout(r, 1800));
   clearInterval(hudInterval);
-
   el('flash').style.opacity = '1';
   await new Promise(r => setTimeout(r, 80));
   el('flash').style.transition = 'opacity 0.5s'; el('flash').style.opacity = '0';
