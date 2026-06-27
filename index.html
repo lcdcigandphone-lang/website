@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cig & Phone — Choisissez votre boutique</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Satisfy&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--g:#00ff00;--gg:rgba(0,255,0,.35);--dc:#121214;}
@@ -34,136 +35,18 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
 .card-inner .btn-go{display:inline-block;margin-top:16px;background:var(--g);color:#000;font-size:13px;font-weight:800;padding:10px 28px;border-radius:30px;text-transform:uppercase;letter-spacing:2px;box-shadow:0 0 18px var(--gg);transition:transform .2s,box-shadow .2s;}
 .card:hover .btn-go{transform:scale(1.07);box-shadow:0 0 30px var(--g);}
 
-/* === HUB SMARTPHONE HOLOGRAMME === */
-.hub{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:100px;height:100px;
-  display:flex;align-items:center;justify-content:center;
+/* HUB Three.js — positionné dans .scene, hors du .wheel */
+#hub-canvas{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:110px;height:110px;
   z-index:30;
-}
-.hub-glow{
-  position:absolute;inset:-18px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(0,255,0,0.18) 0%,transparent 70%);
-  animation:pulseGlow 2.4s ease-in-out infinite;
-}
-.hub-ring{
-  position:absolute;inset:-8px;
-  border-radius:50%;
-  border:1.5px solid rgba(0,255,0,0.4);
-  animation:ringPulse 2.4s ease-in-out infinite;
-}
-.hub-ring2{
-  position:absolute;inset:-20px;
-  border-radius:50%;
-  border:1px solid rgba(0,255,0,0.15);
-  animation:ringPulse 2.4s ease-in-out infinite 0.8s;
-}
-
-/* Smartphone 3D CSS */
-.phone-3d{
-  width:38px;height:64px;
-  position:relative;
-  transform-style:preserve-3d;
-  animation:phoneFloat 3s ease-in-out infinite, phoneSpin 8s linear infinite;
-  filter:drop-shadow(0 0 10px #00ff00) drop-shadow(0 0 24px rgba(0,255,0,0.5));
-}
-.phone-face{
-  position:absolute;inset:0;
-  border-radius:7px;
-  border:2px solid #00ff00;
-  background:rgba(0,20,0,0.85);
-  overflow:hidden;
-  backface-visibility:hidden;
-}
-.phone-face::before{
-  content:'';
-  position:absolute;
-  top:6px;left:50%;transform:translateX(-50%);
-  width:10px;height:2px;
-  background:rgba(0,255,0,0.5);
-  border-radius:2px;
-}
-.phone-face::after{
-  content:'';
-  position:absolute;
-  bottom:5px;left:50%;transform:translateX(-50%);
-  width:14px;height:14px;
-  border-radius:50%;
-  border:1.5px solid rgba(0,255,0,0.4);
-}
-.phone-screen{
-  position:absolute;
-  top:14px;left:3px;right:3px;bottom:24px;
-  background:rgba(0,255,0,0.06);
-  border-radius:3px;
-  overflow:hidden;
-}
-.phone-screen::before{
-  content:'';
-  position:absolute;inset:0;
-  background:repeating-linear-gradient(0deg,rgba(0,255,0,0.08) 0px,rgba(0,255,0,0.08) 1px,transparent 1px,transparent 4px);
-  animation:screenScroll 1.2s linear infinite;
-}
-.phone-signal{
-  position:absolute;
-  top:4px;right:4px;
-  width:8px;height:5px;
-  display:flex;align-items:flex-end;gap:1px;
-}
-.phone-signal span{
-  display:block;width:2px;background:#00ff00;
-  animation:sigBlink 1.5s ease-in-out infinite;
-}
-.phone-signal span:nth-child(1){height:2px;animation-delay:0s;}
-.phone-signal span:nth-child(2){height:3px;animation-delay:0.2s;}
-.phone-signal span:nth-child(3){height:5px;animation-delay:0.4s;}
-
-.phone-back{
-  position:absolute;inset:0;
-  border-radius:7px;
-  background:rgba(0,40,0,0.9);
-  border:1.5px solid rgba(0,255,0,0.3);
-  transform:rotateY(180deg);
-  backface-visibility:hidden;
-}
-
-/* Particules orbitales */
-.orbit-wrap{
-  position:absolute;inset:0;
   pointer-events:none;
-}
-.orbit{
-  position:absolute;top:50%;left:50%;
-  width:80px;height:80px;
-  margin:-40px 0 0 -40px;
   border-radius:50%;
-  border:1px dashed rgba(0,255,0,0.15);
-  animation:orbitSpin 4s linear infinite;
+  /* Glow externe CSS */
+  filter:drop-shadow(0 0 12px #00ff00) drop-shadow(0 0 28px rgba(0,255,0,0.4));
 }
-.orbit2{
-  width:60px;height:60px;
-  margin:-30px 0 0 -30px;
-  border:1px dashed rgba(0,255,0,0.1);
-  animation:orbitSpin 6s linear infinite reverse;
-}
-.orbit-dot{
-  position:absolute;
-  top:-3px;left:50%;margin-left:-3px;
-  width:6px;height:6px;
-  border-radius:50%;
-  background:#00ff00;
-  box-shadow:0 0 6px #00ff00;
-}
-
-@keyframes pulseGlow{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
-@keyframes ringPulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.9;transform:scale(1.08)}}
-@keyframes phoneFloat{0%,100%{transform:translateY(0) rotateX(8deg)}50%{transform:translateY(-5px) rotateX(-4deg)}}
-@keyframes phoneSpin{0%{transform:translateY(0) rotateY(0deg)}25%{transform:translateY(-4px) rotateY(90deg)}50%{transform:translateY(0) rotateY(180deg)}75%{transform:translateY(-4px) rotateY(270deg)}100%{transform:translateY(0) rotateY(360deg)}}
-@keyframes screenScroll{from{background-position:0 0}to{background-position:0 -20px}}
-@keyframes sigBlink{0%,100%{opacity:.4}50%{opacity:1}}
-@keyframes orbitSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-/* === FIN HUB === */
 
 .hint{position:relative;z-index:10;margin-top:18px;font-size:12px;color:#555;letter-spacing:2px;text-transform:uppercase;animation:blink 2.5s infinite;}
 @keyframes scan{0%{top:0}50%{top:100%}100%{top:0}}
@@ -175,8 +58,7 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
   .card-2{transform:translate(-50%,-50%) rotateY(120deg) translateZ(200px);}
   .card-3{transform:translate(-50%,-50%) rotateY(240deg) translateZ(200px);}
   .card-inner h2{font-size:15px;}
-  .hub{width:75px;height:75px;}
-  .phone-3d{width:28px;height:48px;}
+  #hub-canvas{width:80px;height:80px;}
   .scene{height:58vh;}
   .top img{width:200px;}
 }
@@ -189,6 +71,7 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
   <img src="cigandphone-pornic (3).png" alt="Logo">
   <h1>Choisissez votre <span>boutique</span></h1>
 </div>
+
 <div class="scene" id="scene">
   <div class="wheel" id="wheel">
     <a href="transition.html?to=cigphone" class="card card-1">
@@ -212,32 +95,18 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
         <span class="btn-go">Y aller →</span>
       </div>
     </a>
-
-    <!-- HUB SMARTPHONE HOLOGRAMME -->
-    <div class="hub">
-      <div class="hub-glow"></div>
-      <div class="hub-ring"></div>
-      <div class="hub-ring2"></div>
-      <div class="orbit-wrap">
-        <div class="orbit"><div class="orbit-dot"></div></div>
-        <div class="orbit orbit2"><div class="orbit-dot"></div></div>
-      </div>
-      <div class="phone-3d">
-        <div class="phone-face">
-          <div class="phone-screen">
-            <div class="phone-signal">
-              <span></span><span></span><span></span>
-            </div>
-          </div>
-        </div>
-        <div class="phone-back"></div>
-      </div>
-    </div>
-
   </div>
+
+  <!-- Canvas Three.js HORS du wheel — indépendant -->
+  <canvas id="hub-canvas"></canvas>
 </div>
+
 <p class="hint">↔ Faites tourner • Cliquez pour entrer</p>
+
 <script>
+/* ====================================================
+   ROUE DE SELECTION
+====================================================*/
 const wheel=document.getElementById('wheel');
 let drag=false,lastX=0,curAngle=0,vel=0,raf;
 function readAngle(){const m=(wheel.style.transform||'').match(/rotateY\(([-\d.]+)deg\)/);return m?parseFloat(m[1]):0;}
@@ -251,6 +120,152 @@ document.addEventListener('mouseup',endDrag);
 wheel.addEventListener('touchstart',e=>startDrag(e.touches[0].clientX),{passive:true});
 document.addEventListener('touchmove',e=>moveDrag(e.touches[0].clientX),{passive:true});
 document.addEventListener('touchend',endDrag);
+
+/* ====================================================
+   SMARTPHONE THREE.JS HOLOGRAMME
+====================================================*/
+(function(){
+  const canvas = document.getElementById('hub-canvas');
+  const W = canvas.offsetWidth  || 110;
+  const H = canvas.offsetHeight || 110;
+  canvas.width  = W * window.devicePixelRatio;
+  canvas.height = H * window.devicePixelRatio;
+
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(W, H);
+  renderer.setClearColor(0x000000, 0);
+
+  const scene3 = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(38, W/H, 0.1, 100);
+  camera.position.set(0, 0, 3.8);
+
+  const GREEN  = 0x00ff00;
+  const GREEN2 = 0x00cc44;
+
+  /* --- Matériaux hologramme --- */
+  const matWire = new THREE.MeshBasicMaterial({
+    color: GREEN, wireframe: true, transparent: true, opacity: 0.55
+  });
+  const matEdge = new THREE.LineBasicMaterial({
+    color: GREEN, transparent: true, opacity: 0.85
+  });
+  const matFace = new THREE.MeshBasicMaterial({
+    color: GREEN, transparent: true, opacity: 0.06, side: THREE.FrontSide
+  });
+  const matScreen = new THREE.MeshBasicMaterial({
+    color: 0x003300, transparent: true, opacity: 0.75
+  });
+  const matScreenGlow = new THREE.MeshBasicMaterial({
+    color: GREEN2, transparent: true, opacity: 0.18
+  });
+
+  /* --- Groupe principal --- */
+  const phone = new THREE.Group();
+  scene3.add(phone);
+
+  /* Corps du téléphone */
+  const bodyGeo  = new THREE.BoxGeometry(0.55, 1.1, 0.07, 4, 8, 2);
+  const bodyWire = new THREE.Mesh(bodyGeo, matWire);
+  const bodyFace = new THREE.Mesh(bodyGeo, matFace);
+  const bodyEdge = new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo), matEdge);
+  phone.add(bodyFace, bodyWire, bodyEdge);
+
+  /* Écran */
+  const scrGeo  = new THREE.PlaneGeometry(0.38, 0.62, 3, 6);
+  const scrMesh = new THREE.Mesh(scrGeo, matScreen);
+  scrMesh.position.set(0, 0.08, 0.037);
+  phone.add(scrMesh);
+
+  /* Scanlines sur l'écran */
+  const linesMat = new THREE.LineBasicMaterial({color:GREEN, transparent:true, opacity:0.22});
+  const linesPts = [];
+  for(let i=0;i<12;i++){
+    const y = -0.28 + i*(0.62/11);
+    linesPts.push(new THREE.Vector3(-0.19, y, 0.038));
+    linesPts.push(new THREE.Vector3( 0.19, y, 0.038));
+  }
+  const linesGeo = new THREE.BufferGeometry().setFromPoints(linesPts);
+  phone.add(new THREE.LineSegments(linesGeo, linesMat));
+
+  /* Encoche caméra */
+  const notchGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.012, 12);
+  const notchMat = new THREE.MeshBasicMaterial({color:GREEN, transparent:true, opacity:0.7});
+  const notch    = new THREE.Mesh(notchGeo, notchMat);
+  notch.rotation.x = Math.PI/2;
+  notch.position.set(0, 0.47, 0.038);
+  phone.add(notch);
+
+  /* Bouton home */
+  const homeGeo = new THREE.RingGeometry(0.04, 0.065, 16);
+  const homeMat = new THREE.MeshBasicMaterial({color:GREEN, transparent:true, opacity:0.6, side:THREE.DoubleSide});
+  const home    = new THREE.Mesh(homeGeo, homeMat);
+  home.position.set(0, -0.44, 0.038);
+  phone.add(home);
+
+  /* Anneau orbital qui tourne autour du téléphone */
+  const ringGeo = new THREE.TorusGeometry(0.75, 0.008, 6, 60);
+  const ringMat = new THREE.MeshBasicMaterial({color:GREEN, transparent:true, opacity:0.35});
+  const ring1   = new THREE.Mesh(ringGeo, ringMat);
+  ring1.rotation.x = Math.PI/2;
+  scene3.add(ring1);
+
+  const ring2 = ring1.clone();
+  ring2.rotation.set(Math.PI/3, 0, Math.PI/4);
+  ring2.material = ringMat.clone();
+  ring2.material.opacity = 0.2;
+  scene3.add(ring2);
+
+  /* Particule orbitale */
+  const dotGeo = new THREE.SphereGeometry(0.035, 8, 8);
+  const dotMat = new THREE.MeshBasicMaterial({color:GREEN});
+  const dot1   = new THREE.Mesh(dotGeo, dotMat);
+  const dot2   = new THREE.Mesh(dotGeo, dotMat.clone());
+  scene3.add(dot1, dot2);
+
+  /* Lumière point (pour depth) */
+  scene3.add(new THREE.PointLight(GREEN, 1.2, 8));
+
+  let t = 0;
+  function animate(){
+    requestAnimationFrame(animate);
+    t += 0.012;
+
+    /* Rotation multi-axes lente et fluide */
+    phone.rotation.y = t * 0.7;
+    phone.rotation.x = Math.sin(t * 0.31) * 0.32;
+    phone.rotation.z = Math.sin(t * 0.19) * 0.10;
+
+    /* Scanlines qui défilent : déplace légèrement le mesh */
+    scrMesh.position.y = 0.08 + Math.sin(t * 2.1) * 0.002;
+
+    /* Anneaux qui tournent */
+    ring1.rotation.z = t * 0.4;
+    ring2.rotation.y = t * 0.55;
+
+    /* Dot orbital sur ring1 */
+    dot1.position.set(
+      Math.cos(t * 0.8) * 0.75,
+      Math.sin(t * 0.8) * 0.75 * Math.cos(ring1.rotation.x),
+      Math.sin(t * 0.8) * 0.75 * Math.sin(ring1.rotation.x)
+    );
+    dot2.position.set(
+      Math.cos(t * 0.55 + Math.PI) * 0.75,
+      Math.sin(t * 0.55 + Math.PI) * 0.4,
+      0
+    );
+
+    /* Pulsation opacity */
+    const pulse = 0.5 + 0.5 * Math.sin(t * 1.8);
+    matWire.opacity   = 0.35 + 0.2  * pulse;
+    matEdge.opacity   = 0.7  + 0.15 * pulse;
+    ring1.material.opacity = 0.25 + 0.15 * pulse;
+    linesMat.opacity  = 0.15 + 0.12 * pulse;
+
+    renderer.render(scene3, camera);
+  }
+  animate();
+})();
 </script>
 </body>
 </html>
