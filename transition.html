@@ -12,7 +12,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 #map-wrap{
   position:fixed;inset:0;z-index:1;
   opacity:0;
-  transform:scale(0.05);
+  transform:scale(0.04);
   transform-origin:center center;
   transition:opacity 0.8s;
 }
@@ -72,9 +72,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 </div>
 <script>
 const stores = {
-  cigphone:   { name:"Cig & Phone",     city:"Pornic",         lat:47.11365, lng:-2.10285, url:"cigphone.html" },
-  sosinfo:    { name:"SOS Info.Mobile", city:"Saint-Philbert", lat:47.03580,  lng:-1.64320, url:"sos-info-mobile.html" },
-  smartelier: { name:"Le Smart'elier", city:"Machecoul",      lat:46.98870,  lng:-1.82780, url:"le-smartelier.html" }
+  cigphone:   { name:"Cig & Phone",     city:"Pornic",         lat:47.11531349438508,      lng:-2.0978172850793193, url:"cigphone.html" },
+  sosinfo:    { name:"SOS Info.Mobile", city:"Saint-Philbert", lat:47.039391,              lng:-1.641182,           url:"sos-info-mobile.html" },
+  smartelier: { name:"Le Smart'elier", city:"Machecoul",      lat:46.992412232848764,     lng:-1.820071743570542,  url:"le-smartelier.html" }
 };
 const key = new URLSearchParams(window.location.search).get('to') || 'cigphone';
 const store = stores[key] || stores.cigphone;
@@ -84,7 +84,6 @@ document.getElementById('lbl-city').textContent = '\uD83D\uDCCD ' + store.city;
 const el = id => document.getElementById(id);
 const wrap = document.getElementById('map-wrap');
 
-// Leaflet fixé au zoom 18, aucune animation interne
 const map = L.map('map', {
   center: [store.lat, store.lng],
   zoom: 18,
@@ -101,13 +100,11 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
   maxZoom: 19
 }).addTo(map);
 
-// Zoom CSS : 3 à-coups   0.04 → 0.18 → 0.55 → 1
 function cssZoom(scale, duration, easing){
   wrap.style.transition = `transform ${duration}ms ${easing}`;
   wrap.style.transform = `scale(${scale})`;
 }
 
-// Audio
 const actx = new (window.AudioContext||window.webkitAudioContext)();
 function playBeep(){
   const o=actx.createOscillator(), g=actx.createGain();
@@ -118,7 +115,6 @@ function playBeep(){
   o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime+0.22);
 }
 
-// HUD
 let hudInterval;
 function animateHud(){
   let alt=8000, spd=320;
@@ -150,15 +146,15 @@ async function run(){
     if(loadPct>=100) clearInterval(loadTimer);
   },160);
 
-  // À-coup 1 : continental → région  (1.6s)
+  // À-coup 1 : continental → région (1.6s)
   await new Promise(r=>setTimeout(r,200));
   cssZoom(0.18, 1600, 'cubic-bezier(0.25,0.1,0.25,1)');
 
-  // À-coup 2 : région → ville  (1.8s)
+  // À-coup 2 : région → ville (1.8s)
   await new Promise(r=>setTimeout(r,2200));
   cssZoom(0.55, 1800, 'cubic-bezier(0.25,0.1,0.25,1)');
 
-  // À-coup 3 : ville → adresse  (2.0s)
+  // À-coup 3 : ville → adresse (2.0s)
   await new Promise(r=>setTimeout(r,2400));
   cssZoom(1, 2000, 'cubic-bezier(0.22,1,0.36,1)');
 
@@ -168,7 +164,6 @@ async function run(){
   setTimeout(()=>{ el('lbl-bar').style.width='100%'; },100);
   playBeep();
 
-  // Pause finale avant transition
   await new Promise(r=>setTimeout(r,1800));
   clearInterval(hudInterval);
 
