@@ -4,32 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chargement...</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;height:100%;overflow:hidden;background:#000;}
-#map{position:fixed;inset:0;background:#000;z-index:1;}
-#map iframe{width:100%;height:100%;border:none;filter:saturate(0.6) brightness(0.7);transform-origin:center center;transition:none;}
+#map{position:fixed;inset:0;z-index:1;opacity:0;transition:opacity 0.8s;}
 .vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%);}
 .scanlines{position:fixed;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.08) 0px,rgba(0,0,0,0.08) 1px,transparent 1px,transparent 3px);}
 .flash{position:fixed;inset:0;z-index:10;background:#fff;opacity:0;pointer-events:none;}
-.store-label{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:8;text-align:center;opacity:0;font-family:'Arial Black',sans-serif;}
+.store-label{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:8;text-align:center;opacity:0;font-family:'Arial Black',sans-serif;white-space:nowrap;}
 .store-label .name{font-size:clamp(28px,5vw,52px);font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:4px;text-shadow:0 0 30px rgba(0,255,0,0.8),2px 2px 0 #000,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000;display:block;}
 .store-label .city{font-size:clamp(14px,2vw,20px);color:#00ff00;letter-spacing:6px;text-transform:uppercase;text-shadow:0 0 15px #00ff00;display:block;margin-top:6px;}
-.store-label .bar{display:block;width:0%;height:3px;background:#00ff00;box-shadow:0 0 10px #00ff00;margin:12px auto 0;transition:width 1.2s ease;}
-.hud{position:fixed;top:30px;left:30px;z-index:8;font-family:'Courier New',monospace;font-size:13px;color:rgba(0,255,0,0.7);opacity:0;line-height:1.8;}
+.store-label .bar{display:block;width:0%;height:3px;background:#00ff00;box-shadow:0 0 10px #00ff00;margin:12px auto 0;transition:width 1.4s ease;}
+.hud{position:fixed;top:30px;left:30px;z-index:8;font-family:'Courier New',monospace;font-size:13px;color:rgba(0,255,0,0.7);opacity:0;line-height:1.8;transition:opacity 0.5s;}
 .hud span{display:block;}
-.crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:7;opacity:0;pointer-events:none;}
-.crosshair svg{width:120px;height:120px;animation:spinCross 3s linear infinite;}
+.crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:7;opacity:0;pointer-events:none;transition:opacity 0.5s;}
+.crosshair svg{width:120px;height:120px;animation:spinCross 4s linear infinite;}
 @keyframes spinCross{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.loading-wrap{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:8;width:300px;text-align:center;opacity:0;}
+.loading-wrap{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:8;width:300px;text-align:center;opacity:0;transition:opacity 0.5s;}
 .loading-wrap .lbl{font-family:'Courier New',monospace;font-size:11px;color:#888;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;}
 .loading-track{width:100%;height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
-.loading-fill{height:100%;width:0%;background:#00ff00;box-shadow:0 0 8px #00ff00;transition:width 0.1s linear;}
+.loading-fill{height:100%;width:0%;background:#00ff00;box-shadow:0 0 8px #00ff00;transition:width 0.15s linear;}
 .blackout{position:fixed;inset:0;z-index:20;background:#000;opacity:0;pointer-events:none;}
 </style>
 </head>
 <body>
-<div id="map"><iframe id="mapframe" src="" allowfullscreen loading="lazy"></iframe></div>
+<div id="map"></div>
 <div class="vignette"></div>
 <div class="scanlines"></div>
 <div class="flash" id="flash"></div>
@@ -59,108 +60,109 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
   <span class="bar" id="lbl-bar"></span>
 </div>
 <div class="loading-wrap" id="loading-wrap">
-  <div class="lbl">Chargement boutique</div>
+  <div class="lbl">Localisation en cours</div>
   <div class="loading-track"><div class="loading-fill" id="loading-fill"></div></div>
 </div>
 <script>
 const stores = {
-  cigphone:   {
-    name: "Cig & Phone",
-    city: "Pornic",
-    addr: "2 rue du Canal, 44210 Pornic",
-    lat: 47.11365, lng: -2.10285,
-    url: "cigphone.html"
-  },
-  sosinfo:    {
-    name: "SOS Info.Mobile",
-    city: "Saint-Philbert",
-    addr: "9c rue du Port, Saint-Philbert-de-Grand-Lieu",
-    lat: 47.03520, lng: -1.64490,
-    url: "sos-info-mobile.html"
-  },
-  smartelier: {
-    name: "Le Smart'elier",
-    city: "Machecoul",
-    addr: "11 rue du March\u00e9, 44270 Machecoul",
-    lat: 46.98870, lng: -1.82780,
-    url: "le-smartelier.html"
-  }
+  cigphone:   { name:"Cig & Phone",     city:"Pornic",         lat:47.11365, lng:-2.10285, url:"cigphone.html" },
+  sosinfo:    { name:"SOS Info.Mobile", city:"Saint-Philbert", lat:47.03520,  lng:-1.64490, url:"sos-info-mobile.html" },
+  smartelier: { name:"Le Smart'elier", city:"Machecoul",      lat:46.98870,  lng:-1.82780, url:"le-smartelier.html" }
 };
 const key = new URLSearchParams(window.location.search).get('to') || 'cigphone';
 const store = stores[key] || stores.cigphone;
 document.getElementById('lbl-name').textContent = store.name;
-document.getElementById('lbl-city').textContent = '📍 ' + store.city;
-// Embed avec adresse textuelle pour précision maximale
-const q = encodeURIComponent(store.addr);
-document.getElementById('mapframe').src = `https://maps.google.com/maps?q=${q}&t=k&z=17&ie=UTF8&iwloc=&output=embed`;
+document.getElementById('lbl-city').textContent = '\uD83D\uDCCD ' + store.city;
 
 const el = id => document.getElementById(id);
-function fade(elem,to,dur,cb){
-  const start=parseFloat(elem.style.opacity)||0, diff=to-start, t0=performance.now();
-  (function step(t){const p=Math.min((t-t0)/dur,1);elem.style.opacity=start+diff*p;p<1?requestAnimationFrame(step):cb&&cb();})(t0);
-}
+
+// Init Leaflet avec tuiles satellite ESRI (pas de clé requise)
+const map = L.map('map', {
+  center: [store.lat, store.lng],
+  zoom: 6,
+  zoomControl: false,
+  attributionControl: false,
+  dragging: false,
+  scrollWheelZoom: false,
+  doubleClickZoom: false,
+  keyboard: false
+});
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  maxZoom: 19
+}).addTo(map);
+
+// Audio
 const ctx = new (window.AudioContext||window.webkitAudioContext)();
-function playWhoosh(){
-  const buf=ctx.createBuffer(1,ctx.sampleRate*1.2,ctx.sampleRate), d=buf.getChannelData(0);
-  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5)*0.4;
-  const src=ctx.createBufferSource(); src.buffer=buf;
-  const g=ctx.createGain(); g.gain.setValueAtTime(0,ctx.currentTime); g.gain.linearRampToValueAtTime(0.7,ctx.currentTime+0.1); g.gain.linearRampToValueAtTime(0,ctx.currentTime+1.2);
-  const f=ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=800; f.Q.value=0.5;
-  src.connect(f); f.connect(g); g.connect(ctx.destination); src.start();
-}
 function playBeep(){
   const o=ctx.createOscillator(), g=ctx.createGain();
-  o.type='square'; o.frequency.value=1100;
-  g.gain.setValueAtTime(0.12,ctx.currentTime); g.gain.linearRampToValueAtTime(0,ctx.currentTime+0.1);
-  o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1);
+  o.type='sine'; o.frequency.value=880;
+  g.gain.setValueAtTime(0,ctx.currentTime);
+  g.gain.linearRampToValueAtTime(0.1,ctx.currentTime+0.05);
+  g.gain.linearRampToValueAtTime(0,ctx.currentTime+0.18);
+  o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.2);
 }
+
+// HUD
 let hudInterval;
 function animateHud(){
   let alt=8000, spd=320;
   hudInterval=setInterval(()=>{
-    alt=Math.max(50,alt-Math.random()*180); spd=Math.max(0,spd-Math.random()*18);
-    el('hud-lat').textContent='LAT: '+(store.lat+(Math.random()-0.5)*0.001*(alt/200)).toFixed(6);
-    el('hud-lng').textContent='LNG: '+(store.lng+(Math.random()-0.5)*0.001*(alt/200)).toFixed(6);
+    alt=Math.max(50,alt-Math.random()*200); spd=Math.max(0,spd-Math.random()*20);
+    el('hud-lat').textContent='LAT: '+(store.lat+(Math.random()-0.5)*0.0005*(alt/500)).toFixed(6);
+    el('hud-lng').textContent='LNG: '+(store.lng+(Math.random()-0.5)*0.0005*(alt/500)).toFixed(6);
     el('hud-alt').textContent='ALT: '+Math.round(alt)+' m';
     el('hud-spd').textContent='SPD: '+Math.round(spd)+' km/h';
-  },120);
+  },150);
 }
-const frame=el('mapframe');
-let currentScale=1, zoomSteps=0, maxZoom=12;
-function doZoomStep(){
-  if(zoomSteps>=maxZoom) return; zoomSteps++;
-  currentScale*=1.22;
-  frame.style.transition='transform 0.38s cubic-bezier(0.22,1,0.36,1)';
-  frame.style.transform=`scale(${currentScale})`;
-  const dx=(Math.random()-0.5)*4*(maxZoom-zoomSteps), dy=(Math.random()-0.5)*4*(maxZoom-zoomSteps);
-  frame.style.transformOrigin=`calc(50% + ${dx}px) calc(50% + ${dy}px)`;
-}
+
+// Zoom fluide par étapes : 6 → 12 → 17
+const zoomSteps = [6, 12, 17];
+
 async function run(){
   ctx.resume();
-  await new Promise(r=>setTimeout(r,400));
-  fade(el('map').querySelector('iframe'),0.9,600);
-  fade(el('hud'),1,500); fade(el('crosshair'),1,500); fade(el('loading-wrap'),1,400);
-  animateHud();
-  await new Promise(r=>setTimeout(r,500));
-  playWhoosh();
-  let loadPct=0;
-  const loadTimer=setInterval(()=>{ loadPct=Math.min(100,loadPct+Math.random()*6); el('loading-fill').style.width=loadPct+'%'; if(loadPct>=100) clearInterval(loadTimer); },120);
-  for(let i=0;i<maxZoom;i++){
-    await new Promise(r=>setTimeout(r,280+Math.random()*120));
-    doZoomStep();
-  }
+
+  // Fade in carte
   await new Promise(r=>setTimeout(r,300));
-  fade(el('store-label'),1,600);
+  document.getElementById('map').style.opacity='1';
+  el('hud').style.opacity='1';
+  el('crosshair').style.opacity='1';
+  el('loading-wrap').style.opacity='1';
+  animateHud();
+
+  // Barre de chargement
+  let loadPct=0;
+  const loadTimer=setInterval(()=>{
+    loadPct=Math.min(100,loadPct+Math.random()*4);
+    el('loading-fill').style.width=loadPct+'%';
+    if(loadPct>=100) clearInterval(loadTimer);
+  },160);
+
+  // Zoom étape 1 : vue large → région (zoom 12), durée 1.6s
+  await new Promise(r=>setTimeout(r,600));
+  map.flyTo([store.lat, store.lng], 12, { duration: 1.6, easeLinearity: 0.3 });
+
+  // Zoom étape 2 : région → ville (zoom 17), durée 1.8s
+  await new Promise(r=>setTimeout(r,2400));
+  map.flyTo([store.lat, store.lng], 17, { duration: 1.8, easeLinearity: 0.25 });
+
+  // Affiche label boutique pendant le dernier zoom
+  await new Promise(r=>setTimeout(r,1200));
+  el('store-label').style.transition='opacity 0.7s';
+  el('store-label').style.opacity='1';
   setTimeout(()=>{ el('lbl-bar').style.width='100%'; },100);
   playBeep();
-  await new Promise(r=>setTimeout(r,1400));
+
+  // Attendre fin du zoom + lecture
+  await new Promise(r=>setTimeout(r,1600));
   clearInterval(hudInterval);
+
+  // Flash + blackout
   el('flash').style.opacity='1';
   await new Promise(r=>setTimeout(r,80));
-  el('flash').style.transition='opacity 0.4s'; el('flash').style.opacity='0';
+  el('flash').style.transition='opacity 0.5s'; el('flash').style.opacity='0';
   await new Promise(r=>setTimeout(r,300));
-  el('blackout').style.transition='opacity 0.5s'; el('blackout').style.opacity='1';
-  await new Promise(r=>setTimeout(r,550));
+  el('blackout').style.transition='opacity 0.6s'; el('blackout').style.opacity='1';
+  await new Promise(r=>setTimeout(r,650));
   window.location.href=store.url;
 }
 run();
