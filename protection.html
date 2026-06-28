@@ -5,7 +5,7 @@
 <title>Cig &amp; Phone — Protection téléphone | Pornic</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Satisfy&display=swap" rel="stylesheet">
 <style>
-:root{--gt:#4CAF50;--gg:rgba(76,175,80,.6);--gn:#39FF14;--dc:#121214;--dk:#1a1a1e;--lb:#fff;}
+:root{--gt:#4CAF50;--gg:rgba(76,175,80,.6);--gn:#39FF14;--dc:#121214;--dk:#1a1a1e;}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;}
 body{background:var(--dc);color:#fff;overflow-x:hidden;line-height:1.6;}#tm{display:none;}
 header{background:#fff;padding:12px 15px;box-shadow:0 4px 20px rgba(0,0,0,.15);position:relative;z-index:100;}
@@ -40,92 +40,34 @@ nav a:hover{color:var(--gt);}
 .protection-hero p{max-width:700px;margin:0 auto;color:#ccc;font-size:16px;opacity:0;animation:fadeInUp 1s ease forwards .3s;}
 .showcase-container{display:flex;justify-content:center;align-items:center;gap:80px;margin-top:60px;opacity:0;animation:fadeInUp 1s ease forwards .6s;}
 .phone-wrapper{position:relative;width:175px;height:360px;flex-shrink:0;}
-.phone-scene{width:175px;height:360px;position:relative;transform-style:preserve-3d;transform:rotateX(8deg) rotateY(-15deg);transition:transform .08s ease-out;}
+.phone-scene{width:175px;height:360px;position:relative;transform-style:preserve-3d;transform:rotateX(8deg) rotateY(-15deg);transition:transform .05s ease-out;}
 .phone-layer{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:35px;background:#2a2a2c;border:1px solid #3a3a3c;box-sizing:border-box;}
 .layer-1{transform:translateZ(1px);}.layer-2{transform:translateZ(2px);}.layer-3{transform:translateZ(3px);}.layer-4{transform:translateZ(4px);}.layer-5{transform:translateZ(5px);}.layer-6{transform:translateZ(6px);}.layer-7{transform:translateZ(7px);}.layer-8{transform:translateZ(8px);}.layer-9{transform:translateZ(9px);}.layer-10{transform:translateZ(10px);}
 .layer-6::before{content:'';position:absolute;top:115px;right:-4px;width:4px;height:55px;background:#1a1a1c;border-radius:0 2px 2px 0;box-shadow:0 -65px 0 #1a1a1c;}
 .layer-6::after{content:'';position:absolute;top:80px;left:-4px;width:4px;height:30px;background:#1a1a1c;border-radius:2px 0 0 2px;box-shadow:0 42px 0 #1a1a1c;}
 .phone-back{transform:translateZ(0px) rotateY(180deg);background:#1c1c1e;border:2px solid #2a2a2c;}
-.camera-bump{position:absolute;top:18px;left:16px;width:72px;height:72px;background:#0d0d0d;border-radius:18px;box-shadow:2px 2px 8px rgba(0,0,0,.9),inset 1px 1px 2px rgba(255,255,255,.06);}
-.lens{position:absolute;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 38% 38%,#1a1a2e 0%,#000 60%);border:2px solid #2a2a2a;box-shadow:0 0 3px rgba(0,0,0,.8);}
+.camera-bump{position:absolute;top:18px;left:16px;width:72px;height:72px;background:#0d0d0d;border-radius:18px;}
+.lens{position:absolute;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 38% 38%,#1a1a2e 0%,#000 60%);border:2px solid #2a2a2a;}
 .lens::after{content:'';position:absolute;width:9px;height:9px;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 40% 40%,#2a2a40,#000);}
 .lens::before{content:'';position:absolute;width:5px;height:5px;top:4px;left:4px;border-radius:50%;background:rgba(255,255,255,.13);}
 .lens-1{top:6px;left:6px;}.lens-2{bottom:6px;left:6px;}.lens-3{top:50%;right:5px;transform:translateY(-50%);}
-.flash{position:absolute;top:9px;right:11px;width:9px;height:9px;background:radial-gradient(circle,#ffe8c0,#cc9900);border-radius:50%;box-shadow:0 0 4px #ffe8c0;}
+.flash{position:absolute;top:9px;right:11px;width:9px;height:9px;background:radial-gradient(circle,#ffe8c0,#cc9900);border-radius:50%;}
 .apple-logo{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:39px;background:#3a3a3c;-webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 814 1000'><path d='M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.5 135.4-317.3 269-317.3 70.1 0 128.4 46.4 172.5 46.4 42.8 0 109.6-49 192.5-49 31 0 108.2 2.6 168.6 74.9zm-174.4-186c31.3-37.4 53.6-89.8 53.6-142.2 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.4 33.7-146.4 75.7-28.3 32.4-55.1 84.8-55.1 138.5 0 7.7 1.3 15.5 1.9 18 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 134.3-71.2z'/></svg>");-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 814 1000'><path d='M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.5 135.4-317.3 269-317.3 70.1 0 128.4 46.4 172.5 46.4 42.8 0 109.6-49 192.5-49 31 0 108.2 2.6 168.6 74.9zm-174.4-186c31.3-37.4 53.6-89.8 53.6-142.2 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.4 33.7-146.4 75.7-28.3 32.4-55.1 84.8-55.1 138.5 0 7.7 1.3 15.5 1.9 18 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 134.3-71.2z'/></svg>");mask-size:contain;mask-repeat:no-repeat;mask-position:center;}
 .phone-front{transform:translateZ(11px);background:#000;border:3px solid #1c1c1e;overflow:hidden;box-shadow:0 0 20px rgba(76,175,80,.3);border-radius:33px;}
-.dynamic-island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:62px;height:18px;background:#000;border-radius:10px;z-index:10;border:1px solid #111;}
-/* FOND ECRAN IPHONE : wallpaper sombre iOS avec logo par-dessus */
-.screen-bg{
-  position:absolute;inset:0;border-radius:30px;
-  background: radial-gradient(ellipse at 30% 20%, #1a2a4a 0%, #0d1117 40%, #000510 100%);
-  display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:35px 0 18px;
-  overflow:hidden;
-}
-/* etoiles decoratives */
-.screen-bg::before{
-  content:'';
-  position:absolute;inset:0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px);
-  background-size: 60px 60px, 40px 40px, 80px 80px;
-  background-position: 10px 10px, 25px 30px, 5px 50px;
-  opacity:0.5;
-  border-radius:30px;
-}
-/* lueur violette / bleue iOS style */
-.screen-bg::after{
-  content:'';
-  position:absolute;
-  top:-30%;left:-20%;width:140%;height:80%;
-  background: radial-gradient(ellipse, rgba(120,80,220,0.35) 0%, transparent 70%);
-  border-radius:50%;
-}
-.screen-logo{
-  position:relative;z-index:5;
-  width:75%;max-width:120px;
-  margin-top:30px;
-  filter:drop-shadow(0 0 8px rgba(76,175,80,0.5));
-}
-.screen-time{
-  position:relative;z-index:5;
-  font-size:26px;font-weight:800;color:#fff;
-  font-family:-apple-system,sans-serif;
-  text-shadow:0 0 10px rgba(255,255,255,0.3);
-  margin-top:8px;
-}
+.dynamic-island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:62px;height:18px;background:#000;border-radius:10px;z-index:10;}
+.screen-bg{position:absolute;inset:0;border-radius:30px;background:radial-gradient(ellipse at 30% 20%,#1a2a4a 0%,#0d1117 40%,#000510 100%);display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:35px 0 18px;overflow:hidden;}
+.screen-bg::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 1px),radial-gradient(circle,rgba(255,255,255,.6) 1px,transparent 1px);background-size:60px 60px,40px 40px;background-position:10px 10px,25px 30px;opacity:.5;border-radius:30px;}
+.screen-bg::after{content:'';position:absolute;top:-30%;left:-20%;width:140%;height:80%;background:radial-gradient(ellipse,rgba(120,80,220,.35) 0%,transparent 70%);border-radius:50%;}
+.screen-logo{position:relative;z-index:5;width:75%;max-width:120px;margin-top:30px;filter:drop-shadow(0 0 8px rgba(76,175,80,.5));}
+.screen-time{position:relative;z-index:5;font-size:26px;font-weight:800;color:#fff;font-family:-apple-system,sans-serif;text-shadow:0 0 10px rgba(255,255,255,.3);margin-top:8px;}
 .screen-bottom{position:relative;z-index:5;width:80%;display:flex;justify-content:space-between;}
-.screen-icon{width:33px;height:33px;background:rgba(255,255,255,0.15);backdrop-filter:blur(4px);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:15px;border:1px solid rgba(255,255,255,0.1);}
-/* reflet hydrogel */
-.screen-shine{
-  position:absolute;inset:0;border-radius:30px;
-  background:linear-gradient(
-    115deg,
-    transparent 0%,transparent 30%,
-    rgba(255,255,255,0.03) 38%,
-    rgba(255,255,255,0.18) 45%,
-    rgba(255,255,255,0.28) 48%,
-    rgba(255,255,255,0.18) 51%,
-    rgba(255,255,255,0.03) 58%,
-    transparent 65%,transparent 100%
-  );
-  background-size:300% 100%;
-  background-position:200% 0;
-  animation:slideShine 3.5s ease-in-out infinite;
-  pointer-events:none;z-index:20;
-}
-@keyframes slideShine{
-  0%{background-position:200% 0;opacity:.8}
-  50%{background-position:-50% 0;opacity:1}
-  100%{background-position:200% 0;opacity:.8}
-}
-.screen-edge{
-  position:absolute;inset:0;border-radius:30px;
-  box-shadow:inset 0 0 8px rgba(57,255,20,0.12),inset 0 0 2px rgba(255,255,255,0.15);
-  pointer-events:none;z-index:21;
-}
+.screen-icon{width:33px;height:33px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:15px;border:1px solid rgba(255,255,255,.1);}
+.screen-shine{position:absolute;inset:0;border-radius:30px;background:linear-gradient(115deg,transparent 0%,transparent 30%,rgba(255,255,255,.03) 38%,rgba(255,255,255,.18) 45%,rgba(255,255,255,.28) 48%,rgba(255,255,255,.18) 51%,rgba(255,255,255,.03) 58%,transparent 65%,transparent 100%);background-size:300% 100%;background-position:200% 0;animation:slideShine 3.5s ease-in-out infinite;pointer-events:none;z-index:20;}
+@keyframes slideShine{0%{background-position:200% 0;opacity:.8}50%{background-position:-50% 0;opacity:1}100%{background-position:200% 0;opacity:.8}}
+.screen-sparkle{position:absolute;inset:0;border-radius:30px;pointer-events:none;z-index:22;opacity:0;}
+.screen-sparkle.pop{animation:sparkPop .4s ease-out forwards;}
+@keyframes sparkPop{0%{opacity:0;background:radial-gradient(ellipse at 45% 40%,rgba(255,255,255,0) 0%,transparent 70%);}30%{opacity:1;background:radial-gradient(ellipse at 45% 40%,rgba(255,255,255,.8) 0%,rgba(180,255,200,.4) 35%,transparent 65%);}70%{opacity:.5;background:radial-gradient(ellipse at 55% 45%,rgba(255,255,255,.4) 0%,rgba(100,255,150,.15) 40%,transparent 70%);}100%{opacity:0;}}
+.screen-edge{position:absolute;inset:0;border-radius:30px;box-shadow:inset 0 0 8px rgba(57,255,20,.12),inset 0 0 2px rgba(255,255,255,.15);pointer-events:none;z-index:21;}
 #hydro-canvas{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:480px;height:480px;pointer-events:none;z-index:50;}
 .info-square{background:rgba(26,26,30,.85);border:1px solid var(--gt);border-radius:18px;padding:35px;width:300px;text-align:left;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,.6),inset 0 0 20px rgba(76,175,80,.1);position:relative;overflow:hidden;}
 .info-square::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--gn);box-shadow:0 0 10px var(--gn);}
@@ -183,29 +125,17 @@ nav a:hover{color:var(--gt);}
     <div class="phone-wrapper">
       <canvas id="hydro-canvas"></canvas>
       <div class="phone-scene" id="phone-scene">
-        <div class="phone-layer phone-back">
-          <div class="camera-bump">
-            <div class="lens lens-1"></div><div class="lens lens-2"></div><div class="lens lens-3"></div>
-            <div class="flash"></div>
-          </div>
-          <div class="apple-logo"></div>
-        </div>
-        <div class="phone-layer layer-1"></div><div class="phone-layer layer-2"></div>
-        <div class="phone-layer layer-3"></div><div class="phone-layer layer-4"></div>
-        <div class="phone-layer layer-5"></div><div class="phone-layer layer-6"></div>
-        <div class="phone-layer layer-7"></div><div class="phone-layer layer-8"></div>
-        <div class="phone-layer layer-9"></div><div class="phone-layer layer-10"></div>
+        <div class="phone-layer phone-back"><div class="camera-bump"><div class="lens lens-1"></div><div class="lens lens-2"></div><div class="lens lens-3"></div><div class="flash"></div></div><div class="apple-logo"></div></div>
+        <div class="phone-layer layer-1"></div><div class="phone-layer layer-2"></div><div class="phone-layer layer-3"></div><div class="phone-layer layer-4"></div><div class="phone-layer layer-5"></div><div class="phone-layer layer-6"></div><div class="phone-layer layer-7"></div><div class="phone-layer layer-8"></div><div class="phone-layer layer-9"></div><div class="phone-layer layer-10"></div>
         <div class="phone-layer phone-front">
           <div class="dynamic-island"></div>
           <div class="screen-bg">
             <div class="screen-time">10:09</div>
             <img class="screen-logo" src="cigandphone-pornic (3).png" alt="logo">
-            <div class="screen-bottom">
-              <div class="screen-icon">🔦</div>
-              <div class="screen-icon">📷</div>
-            </div>
+            <div class="screen-bottom"><div class="screen-icon">🔦</div><div class="screen-icon">📷</div></div>
           </div>
           <div class="screen-shine"></div>
+          <div class="screen-sparkle" id="screen-sparkle"></div>
           <div class="screen-edge"></div>
         </div>
       </div>
@@ -226,74 +156,38 @@ nav a:hover{color:var(--gt);}
 <div class="tw"><iframe src="https://www.tiktok.com/embed/v2/7607488769901612310?hide_cookie_banner=1" frameborder="0" allowfullscreen scrolling="no"></iframe></div>
 <div class="tw"><iframe src="https://www.tiktok.com/embed/v2/7635277983648877846?hide_cookie_banner=1" frameborder="0" allowfullscreen scrolling="no"></iframe></div>
 <div class="tw"><iframe src="https://www.tiktok.com/embed/v2/7546575432808697110?hide_cookie_banner=1" frameborder="0" allowfullscreen scrolling="no"></iframe></div>
-</div>
-</div>
+</div></div>
 <div class="fb2">&copy; 2026 <span>Cig &amp; Phone</span>. Tous droits réservés.</div>
 </footer>
 <script>
 (function(){
-  var canvas=document.getElementById('hydro-canvas');
-  var ctx=canvas.getContext('2d');
-  var scene=document.getElementById('phone-scene');
-  canvas.width=480;canvas.height=480;
-  var OBJECTS=['🔨','🪨','🔑','🪛','🔧','🗝️','💎','🪙','🪤'];
-  var CX=240,CY=240,PW=88,PH=182;
-  var particles=[];
-  var shakeTimer=0;
-  function spawnObject(){
-    var emoji=OBJECTS[Math.floor(Math.random()*OBJECTS.length)];
-    var side=Math.floor(Math.random()*4);
-    var sx,sy;
-    if(side===0){sx=40+Math.random()*400;sy=-30;}
-    else if(side===1){sx=510;sy=40+Math.random()*400;}
-    else if(side===2){sx=40+Math.random()*400;sy=510;}
-    else{sx=-30;sy=40+Math.random()*400;}
-    var dx=CX-sx,dy=CY-sy,dist=Math.sqrt(dx*dx+dy*dy)||1,speed=3.5+Math.random()*2;
-    particles.push({x:sx,y:sy,vx:(dx/dist)*speed,vy:(dy/dist)*speed,emoji:emoji,size:26+Math.floor(Math.random()*12),rot:Math.random()*Math.PI*2,rotSpeed:(Math.random()-.5)*0.15,alpha:1,state:'flying',bounceVx:0,bounceVy:0});
-  }
-  function triggerShake(){shakeTimer=18;}
-  function updateShake(){
-    if(shakeTimer>0){
-      shakeTimer--;
-      var i=shakeTimer/18;
-      scene.style.transform='rotateX('+(8+(Math.random()-.5)*10*i)+'deg) rotateY('+(-15+(Math.random()-.5)*10*i)+'deg)';
-    } else {
-      scene.style.transform='rotateX(8deg) rotateY(-15deg)';
-    }
-  }
-  function pointInPhone(x,y){return x>CX-PW&&x<CX+PW&&y>CY-PH&&y<CY+PH;}
-  function update(){
-    particles.forEach(function(p){
-      if(p.state==='flying'){
-        p.x+=p.vx;p.y+=p.vy;p.rot+=p.rotSpeed;
-        if(pointInPhone(p.x,p.y)){
-          p.state='bouncing';
-          var nx=p.x-CX,ny=p.y-CY,nl=Math.sqrt(nx*nx+ny*ny)||1,spd=5+Math.random()*3;
-          p.bounceVx=(nx/nl)*spd+(Math.random()-.5)*2;
-          p.bounceVy=(ny/nl)*spd-2;
-          p.rotSpeed=(Math.random()-.5)*0.35;
-          triggerShake();
-        }
-      } else if(p.state==='bouncing'){
-        p.x+=p.bounceVx;p.y+=p.bounceVy;
-        p.bounceVy+=0.18;p.rot+=p.rotSpeed;p.alpha-=0.022;
-        if(p.alpha<=0)p.state='dead';
-      }
-    });
-    particles=particles.filter(function(p){return p.state!=='dead';});
-  }
-  function draw(){
-    ctx.clearRect(0,0,480,480);
-    particles.forEach(function(p){
-      ctx.save();ctx.globalAlpha=Math.max(0,p.alpha);
-      ctx.translate(p.x,p.y);ctx.rotate(p.rot);
-      ctx.font=p.size+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText(p.emoji,0,0);ctx.restore();
-    });
-  }
-  var frame=0;
-  function loop(){frame++;if(frame%60===0)spawnObject();update();updateShake();draw();requestAnimationFrame(loop);}
-  spawnObject();spawnObject();loop();
+var canvas=document.getElementById('hydro-canvas'),ctx=canvas.getContext('2d'),scene=document.getElementById('phone-scene'),sp=document.getElementById('screen-sparkle');
+canvas.width=480;canvas.height=480;
+var O=['🔨','🪨','🔑','🪛','🔧','🗝️','💎','🪤','🔩','🧲','🪃'];
+var CX=240,CY=240,PW=88,PH=182,parts=[],shakeT=0;
+function rnd(a,b){return a+Math.random()*(b-a);}
+function spawn(){var e=O[Math.floor(Math.random()*O.length)],s=Math.floor(Math.random()*4),sx,sy;
+if(s===0){sx=rnd(40,440);sy=-35;}else if(s===1){sx=515;sy=rnd(40,440);}else if(s===2){sx=rnd(40,440);sy=515;}else{sx=-35;sy=rnd(40,440);}
+var dx=CX-sx,dy=CY-sy,d=Math.sqrt(dx*dx+dy*dy)||1,v=rnd(3.5,6);
+parts.push({x:sx,y:sy,vx:dx/d*v,vy:dy/d*v,e:e,sz:rnd(26,40),r:rnd(0,6.28),rs:rnd(-.18,.18),a:1,st:'fly',bx:0,by:0});}
+function pop(){sp.classList.remove('pop');void sp.offsetWidth;sp.classList.add('pop');}
+function wave(){var tot=4+Math.floor(Math.random()*2),batches=[],rem=tot;
+while(rem>0){var n=(rem>=2&&Math.random()>.4)?2:1;n=Math.min(n,rem);batches.push(n);rem-=n;}
+var t=0;batches.forEach(function(c){setTimeout(function(){for(var i=0;i<c;i++)spawn();},t);t+=Math.round(rnd(500,1300));});
+setTimeout(function(){pop();setTimeout(function(){pop();setTimeout(wave,rnd(3000,4200));},rnd(600,1000));},t+2000);}
+function shake(){shakeT=30;}
+function tick(){
+if(shakeT>0){shakeT--;var i=shakeT/30;scene.style.transform='rotateX('+(8+rnd(-22,22)*i)+'deg) rotateY('+(-15+rnd(-22,22)*i)+'deg)';}
+else scene.style.transform='rotateX(8deg) rotateY(-15deg)';
+parts.forEach(function(p){
+if(p.st==='fly'){p.x+=p.vx;p.y+=p.vy;p.r+=p.rs;
+if(p.x>CX-PW&&p.x<CX+PW&&p.y>CY-PH&&p.y<CY+PH){p.st='bounce';var nx=p.x-CX,ny=p.y-CY,nl=Math.sqrt(nx*nx+ny*ny)||1,v=rnd(6,9.5);p.bx=nx/nl*v+rnd(-2,2);p.by=ny/nl*v-3;p.rs=rnd(-.45,.45);shake();}}
+else{p.x+=p.bx;p.y+=p.by;p.by+=0.22;p.r+=p.rs;p.a-=0.02;if(p.a<=0)p.st='dead';}});
+parts=parts.filter(function(p){return p.st!=='dead';});
+ctx.clearRect(0,0,480,480);
+parts.forEach(function(p){ctx.save();ctx.globalAlpha=Math.max(0,p.a);ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.font=p.sz+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.e,0,0);ctx.restore();});
+requestAnimationFrame(tick);}
+wave();tick();
 })();
 </script>
 </body>
