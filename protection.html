@@ -34,11 +34,14 @@ nav a.active{color:var(--gt);}
 nav a::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:2px;background:var(--gt);transition:width .4s,left .4s;}
 nav a:hover::after,nav a.active::after{width:100%;left:0;}
 nav a:hover{color:var(--gt);}
-.protection-hero{padding:80px 20px;text-align:center;background:radial-gradient(circle at center,#2a2a2a 0%,var(--dc) 70%);border-bottom:1px solid #2a2a2a;}
+.protection-hero{padding:80px 20px;text-align:center;background:radial-gradient(circle at center,#0a1a0a 0%,var(--dc) 70%);border-bottom:1px solid #1a2a1a;}
 .protection-hero h1{font-size:38px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;}
 .protection-hero h1 span{color:var(--gt);text-shadow:0 0 15px var(--gg);animation:cgt 3s infinite ease-in-out;}
 .protection-hero p{max-width:700px;margin:0 auto;color:#ccc;font-size:16px;opacity:0;animation:fadeInUp 1s ease forwards .3s;}
 .showcase-container{display:flex;justify-content:center;align-items:center;gap:80px;margin-top:60px;perspective:1200px;opacity:0;animation:fadeInUp 1s ease forwards .6s;}
+
+/* ===== ZONE ANIMATION TELEPHONE ===== */
+.phone-wrapper{position:relative;width:175px;height:360px;}
 .phone-scene{width:175px;height:360px;position:relative;transform-style:preserve-3d;animation:spinPhone 12s linear infinite;}
 @keyframes spinPhone{0%{transform:rotateX(10deg) rotateY(0deg)}100%{transform:rotateX(10deg) rotateY(360deg)}}
 .phone-layer{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:35px;background:#2a2a2c;border:1px solid #3a3a3c;box-sizing:border-box;}
@@ -59,6 +62,17 @@ nav a:hover{color:var(--gt);}
 .screen-time{font-size:28px;font-weight:800;color:#111;margin-top:5px;font-family:-apple-system,sans-serif;}
 .screen-bottom{width:80%;display:flex;justify-content:space-between;}
 .screen-icon{width:33px;height:33px;background:rgba(0,0,0,.06);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:15px;}
+
+/* reflet hydrogel sur l'ecran */
+.screen-shine{position:absolute;inset:0;border-radius:30px;background:linear-gradient(135deg,rgba(255,255,255,0) 30%,rgba(255,255,255,0.18) 50%,rgba(255,255,255,0) 70%);background-size:200% 200%;animation:shineLoop 4s ease-in-out infinite;pointer-events:none;z-index:20;}
+@keyframes shineLoop{0%,100%{background-position:200% 200%;opacity:.4}50%{background-position:0% 0%;opacity:1}}
+
+/* flash d'impact sur l'ecran */
+.screen-flash{position:absolute;inset:0;border-radius:30px;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,0.7),transparent 70%);opacity:0;pointer-events:none;z-index:25;transition:opacity .05s;}
+
+/* canvas objets volants par-dessus tout */
+#hydro-canvas{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;pointer-events:none;z-index:50;}
+
 .info-square{background:rgba(26,26,30,.85);border:1px solid var(--gt);border-radius:18px;padding:35px;width:300px;text-align:left;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,.6),inset 0 0 20px rgba(76,175,80,.1);position:relative;overflow:hidden;}
 .info-square::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--gn);box-shadow:0 0 10px var(--gn);}
 .info-square h3{color:#fff;font-size:22px;margin-bottom:20px;text-transform:uppercase;letter-spacing:1px;}
@@ -79,7 +93,7 @@ nav a:hover{color:var(--gt);}
 .tw iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
 .fb2{text-align:center;padding:15px 20px;border-top:1px solid #2a2a2a;color:#666;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;}
 .fb2 span{color:var(--gt);}
-@media(max-width:768px){.bi{display:flex;}.lc img{width:160px;}.shp{display:none;}.showcase-container{flex-direction:column;gap:40px;}.info-square{width:100%;max-width:340px;}.protection-hero h1{font-size:24px;}nav ul{display:none;flex-direction:column;gap:0;width:100%;padding:8px 0 0;margin-top:10px;border-top:1px solid #eee;background:#fff;}nav a{width:100%;padding:12px 20px;border-bottom:1px solid #f9f9f9;font-size:13px;}#tm:checked ~ header nav ul{display:flex;}#tm:checked ~ header .bi span:nth-child(1){transform:translateY(9px) rotate(45deg);}#tm:checked ~ header .bi span:nth-child(2){opacity:0;}#tm:checked ~ header .bi span:nth-child(3){transform:translateY(-9px) rotate(-45deg);}.mag-sw a{font-size:9px;padding:4px 8px;}}
+@media(max-width:768px){.bi{display:flex;}.lc img{width:160px;}.shp{display:none;}.showcase-container{flex-direction:column;gap:40px;}.info-square{width:100%;max-width:340px;}.protection-hero h1{font-size:24px;}nav ul{display:none;flex-direction:column;gap:0;width:100%;padding:8px 0 0;margin-top:10px;border-top:1px solid #eee;background:#fff;}nav a{width:100%;padding:12px 20px;border-bottom:1px solid #f9f9f9;font-size:13px;}#tm:checked ~ header nav ul{display:flex;}#tm:checked ~ header .bi span:nth-child(1){transform:translateY(9px) rotate(45deg);}#tm:checked ~ header .bi span:nth-child(2){opacity:0;}#tm:checked ~ header .bi span:nth-child(3){transform:translateY(-9px) rotate(-45deg);}.mag-sw a{font-size:9px;padding:4px 8px;}.phone-wrapper{transform:scale(.85);}.showcase-container{gap:20px;}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes cgt{0%,100%{text-shadow:0 0 8px var(--gg)}50%{text-shadow:0 0 18px var(--gn),0 0 25px var(--gt)}}
 </style>
@@ -96,43 +110,48 @@ nav a:hover{color:var(--gt);}
     </div>
   </div>
   <div class="mag-sw">
-    <a href="home-cig-phone.html"><img src="cigandphone-pornic (3).png">Cig &amp; Phone</a>
+    <a href="home-cig-phone.html" class="cur"><img src="cigandphone-pornic (3).png">Cig &amp; Phone</a>
     <a href="home-sos-mobile.html"><img src="result_0.png">SOS Info.Mobile</a>
     <a href="home-le-smartelier.html"><img src="erasebg-transformed.png">Le Smart'elier</a>
   </div>
   <nav><ul>
     <li><a href="home-cig-phone.html">Accueil</a></li>
-    <li><a href="reparation.html">Réparation</a></li>
+    <li><a href="reparation-cig.html">Réparation</a></li>
     <li><a href="protection.html" class="active">Protection</a></li>
     <li><a href="selection.html">Nos boutiques</a></li>
   </ul></nav>
 </header>
 <main>
 <section class="protection-hero">
-  <h1>L’armure ultime pour<br>votre <span>smartphone</span></h1>
+  <h1>L'armure ultime pour<br>votre <span>smartphone</span></h1>
   <p>Découvrez nos protections haut de gamme. Coques renforcées Fairplay et films Hydrogel de qualité, approuvés par notre équipe.</p>
   <div class="showcase-container">
-    <div class="phone-scene">
-      <div class="phone-layer phone-back">
-        <div class="camera-bump">
-          <div class="lens lens-1"></div><div class="lens lens-2"></div><div class="lens lens-3"></div>
-          <div class="flash"></div>
-        </div>
-        <div class="apple-logo"></div>
-      </div>
-      <div class="phone-layer layer-1"></div><div class="phone-layer layer-2"></div>
-      <div class="phone-layer layer-3"></div><div class="phone-layer layer-4"></div>
-      <div class="phone-layer layer-5"></div><div class="phone-layer layer-6"></div>
-      <div class="phone-layer layer-7"></div><div class="phone-layer layer-8"></div>
-      <div class="phone-layer layer-9"></div><div class="phone-layer layer-10"></div>
-      <div class="phone-layer phone-front">
-        <div class="dynamic-island"></div>
-        <div class="screen-bg">
-          <div class="screen-time">10:09</div>
-          <div class="screen-bottom">
-            <div class="screen-icon">🔦</div>
-            <div class="screen-icon">📷</div>
+    <div class="phone-wrapper">
+      <canvas id="hydro-canvas"></canvas>
+      <div class="phone-scene">
+        <div class="phone-layer phone-back">
+          <div class="camera-bump">
+            <div class="lens lens-1"></div><div class="lens lens-2"></div><div class="lens lens-3"></div>
+            <div class="flash"></div>
           </div>
+          <div class="apple-logo"></div>
+        </div>
+        <div class="phone-layer layer-1"></div><div class="phone-layer layer-2"></div>
+        <div class="phone-layer layer-3"></div><div class="phone-layer layer-4"></div>
+        <div class="phone-layer layer-5"></div><div class="phone-layer layer-6"></div>
+        <div class="phone-layer layer-7"></div><div class="phone-layer layer-8"></div>
+        <div class="phone-layer layer-9"></div><div class="phone-layer layer-10"></div>
+        <div class="phone-layer phone-front" id="phone-front">
+          <div class="dynamic-island"></div>
+          <div class="screen-bg">
+            <div class="screen-time">10:09</div>
+            <div class="screen-bottom">
+              <div class="screen-icon">🔦</div>
+              <div class="screen-icon">📷</div>
+            </div>
+          </div>
+          <div class="screen-shine"></div>
+          <div class="screen-flash" id="screen-flash"></div>
         </div>
       </div>
     </div>
@@ -156,5 +175,117 @@ nav a:hover{color:var(--gt);}
 </div>
 <div class="fb2">&copy; 2026 <span>Cig &amp; Phone</span>. Tous droits réservés.</div>
 </footer>
+
+<script>
+(function(){
+  var canvas = document.getElementById('hydro-canvas');
+  var ctx = canvas.getContext('2d');
+  var flash = document.getElementById('screen-flash');
+  canvas.width = 500;
+  canvas.height = 500;
+
+  var OBJECTS = ['🔨','🪨','🔑','🪛','🔧','🗝️','💎','🪙'];
+  var CENTER_X = 250;
+  var CENTER_Y = 250;
+  // rayon du telephone sur le canvas (approx)
+  var PHONE_W = 90;
+  var PHONE_H = 185;
+
+  var particles = [];
+
+  function spawnObject() {
+    var emoji = OBJECTS[Math.floor(Math.random() * OBJECTS.length)];
+    // point de depart: bord aleatoire
+    var side = Math.floor(Math.random() * 4);
+    var sx, sy;
+    if(side===0){sx=Math.random()*500;sy=-30;}
+    else if(side===1){sx=530;sy=Math.random()*500;}
+    else if(side===2){sx=Math.random()*500;sy=530;}
+    else{sx=-30;sy=Math.random()*500;}
+
+    var dx = CENTER_X - sx;
+    var dy = CENTER_Y - sy;
+    var dist = Math.sqrt(dx*dx+dy*dy);
+    var speed = 3 + Math.random()*2;
+    particles.push({
+      x: sx, y: sy,
+      vx: (dx/dist)*speed,
+      vy: (dy/dist)*speed,
+      emoji: emoji,
+      size: 24 + Math.floor(Math.random()*14),
+      bounced: false,
+      alpha: 1,
+      bounceVx: 0,
+      bounceVy: 0,
+      state: 'flying' // flying | bouncing | fading
+    });
+  }
+
+  function triggerFlash() {
+    flash.style.opacity = '1';
+    setTimeout(function(){ flash.style.opacity = '0'; }, 120);
+  }
+
+  function pointInPhone(x, y) {
+    return x > CENTER_X - PHONE_W && x < CENTER_X + PHONE_W &&
+           y > CENTER_Y - PHONE_H && y < CENTER_Y + PHONE_H;
+  }
+
+  function update() {
+    particles.forEach(function(p){
+      if(p.state === 'flying'){
+        p.x += p.vx;
+        p.y += p.vy;
+        if(pointInPhone(p.x, p.y)){
+          p.state = 'bouncing';
+          // rebond: inverser la direction + ajouter random
+          var nx = p.x - CENTER_X;
+          var ny = p.y - CENTER_Y;
+          var nl = Math.sqrt(nx*nx+ny*ny)||1;
+          p.bounceVx = (nx/nl)*(4+Math.random()*3);
+          p.bounceVy = (ny/nl)*(4+Math.random()*3) - 2;
+          triggerFlash();
+        }
+      } else if(p.state === 'bouncing'){
+        p.x += p.bounceVx;
+        p.y += p.bounceVy;
+        p.bounceVy += 0.15; // gravite
+        p.alpha -= 0.025;
+        if(p.alpha <= 0) p.state = 'dead';
+      }
+    });
+    particles = particles.filter(function(p){ return p.state !== 'dead'; });
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,500,500);
+    particles.forEach(function(p){
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.font = p.size + 'px serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      // rotation pendant le vol
+      ctx.translate(p.x, p.y);
+      ctx.rotate(Date.now()/300 + p.size);
+      ctx.fillText(p.emoji, 0, 0);
+      ctx.restore();
+    });
+  }
+
+  var spawnInterval = 0;
+  function loop() {
+    spawnInterval++;
+    if(spawnInterval % 55 === 0) spawnObject();
+    update();
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  // spawn initial
+  spawnObject();
+  loop();
+})();
+</script>
 </body>
 </html>
