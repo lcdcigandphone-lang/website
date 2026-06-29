@@ -1,0 +1,61 @@
+name: Apply Wood Texture
+on:
+  workflow_dispatch:
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch HTML files with wood texture
+        run: |
+          python3 - <<'PYEOF'
+import base64, re
+
+with open('wood_b64.txt') as f:
+    b64 = f.read().strip()
+
+data_uri = f'data:image/jpeg;base64,{b64}'
+wood_js = f'var WOOD_URI="data:image/jpeg;base64,{b64}";'
+
+with open('wood.js', 'w') as f:
+    f.write(wood_js)
+
+script_tag = '<script src="wood.js"></script>\n<script>document.documentElement.style.setProperty("--wood-texture","url("+WOOD_URI+")");</script>\n'
+
+# Patch home
+with open('home-le-smartelier.html') as f:
+    html = f.read()
+start = html.find('--wood-texture: url("data:image/svg+xml,')
+if start != -1:
+    end = html.find('");\n}', start) + len('");\n}')
+    html = html[:start] + '--wood-texture: url("");\n}' + html[end:]
+html = html.replace('background-size:120px 80px', 'background-size:600px auto')
+html = html.replace('</head>', script_tag + '</head>')
+with open('home-le-smartelier.html', 'w') as f:
+    f.write(html)
+
+for fname in ['reparation-smartelier.html', 'protection-smartelier.html']:
+    with open(fname) as f:
+        html = f.read()
+    old = 'body{background:var(--dc);color:#fff;overflow-x:hidden;line-height:1.6;}#tm{display:none;}'
+    new = 'body{background:var(--dc);background-image:var(--wood-texture,none);background-size:600px auto;background-repeat:repeat;background-attachment:fixed;color:#fff;overflow-x:hidden;line-height:1.6;}#tm{display:none;}'
+    overlay = "body::before{content:'';position:fixed;inset:0;background:rgba(10,6,2,.80);pointer-events:none;z-index:0;}"
+    html = html.replace(old, new + overlay)
+    html = html.replace('header{background:#fff;box-shadow:', 'header{position:relative;z-index:1;background:#fff;box-shadow:')
+    html = html.replace('.cf{background:var(--dc);border-top:2px solid #3a2a10;', '.cf{position:relative;z-index:1;background:rgba(10,6,2,.88);border-top:2px solid #3a2a10;')
+    html = html.replace('</head>', script_tag + '</head>')
+    with open(fname, 'w') as f:
+        f.write(html)
+
+print('Done!')
+PYEOF
+      - name: Commit changes
+        run: |
+          git config user.name "GAIA Code"
+          git config user.email "noreply@gaiacode.pro"
+          git add wood.js home-le-smartelier.html reparation-smartelier.html protection-smartelier.html
+          git diff --cached --quiet || git commit -m "style: apply wood photo texture on all 3 pages
+
+Co-Authored-By: GAIA Code <noreply@gaiacode.pro>"
+          git push
