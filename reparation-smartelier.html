@@ -1,1 +1,133 @@
-REP_PATCHED_CONTENT
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Smart'elier — Réparation | Machecoul</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gt:#D4A853;--gg:rgba(212,168,83,.6);--gn:#e8c06a;--dc:#1a1208;--dk:#221a0e;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;}
+body{background:var(--dc);background-image:var(--wood-texture,none);background-size:600px auto;background-repeat:repeat;background-attachment:fixed;color:#fff;overflow-x:hidden;line-height:1.6;}#tm{display:none;}
+body::before{content:'';position:fixed;inset:0;background:rgba(10,6,2,.80);pointer-events:none;z-index:0;}
+header{position:relative;z-index:1;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.15);}
+.header-top{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;}
+.bi{width:28px;height:20px;display:none;flex-direction:column;justify-content:space-between;cursor:pointer;z-index:120;flex-shrink:0;}
+.bi span{display:block;width:100%;height:3px;background:#333;border-radius:2px;transition:all .3s;}
+.lc{flex:1;display:flex;justify-content:center;align-items:center;}
+.lc img{width:260px;max-width:100%;height:auto;}
+.shp{display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.soc-btn{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;transition:transform .2s;}
+.soc-btn:hover{transform:translateY(-2px);}
+.soc-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.soc-icon svg{width:20px;height:20px;fill:#fff;}
+.soc-fb .soc-icon{background:linear-gradient(145deg,#1877F2,#0a5dc2);box-shadow:0 3px 10px rgba(24,119,242,.35);}
+.soc-ig .soc-icon{background:radial-gradient(circle at 30% 110%,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);box-shadow:0 3px 10px rgba(188,24,136,.35);}
+.soc-tt .soc-icon{background:#000;box-shadow:0 3px 10px rgba(0,0,0,.3);border:1.5px solid #eee;}
+.soc-label{font-family:'Poppins',sans-serif;font-size:9px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px;}
+.mag-sw{display:flex;align-items:center;justify-content:center;gap:8px;padding:6px 20px 8px;border-bottom:1px solid #eee;flex-wrap:wrap;}
+.mag-sw a{display:flex;align-items:center;gap:5px;text-decoration:none;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border:1.5px solid #ddd;color:#555;transition:all .2s;}
+.mag-sw a:hover,.mag-sw a.cur{border-color:var(--gt);color:#8B5E3C;background:rgba(212,168,83,.08);}
+.mag-sw img{width:18px;height:18px;object-fit:contain;border-radius:3px;}
+nav ul{list-style:none;display:flex;justify-content:center;gap:35px;padding:10px 15px;flex-wrap:wrap;}
+nav a{text-decoration:none;color:#333;font-weight:600;text-transform:uppercase;font-size:13px;letter-spacing:1.5px;padding:8px 10px;position:relative;transition:color .3s;}
+nav a.active{color:#8B5E3C;}
+nav a::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:2px;background:var(--gt);transition:width .4s,left .4s;}
+nav a:hover::after,nav a.active::after{width:100%;left:0;}
+nav a:hover{color:#8B5E3C;}
+.repair-hero{position:relative;z-index:1;padding:80px 20px 50px;text-align:center;background:radial-gradient(circle at center,rgba(42,26,6,.85) 0%,rgba(26,18,8,.7) 70%);border-bottom:1px solid #3a2a10;}
+.repair-hero h1{font-size:38px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;}
+.repair-hero h1 span{color:var(--gt);text-shadow:0 0 15px var(--gg);animation:cgt 3s infinite ease-in-out;}
+.repair-hero p{max-width:700px;margin:0 auto 40px;color:#ccc;font-size:16px;opacity:0;animation:fadeInUp 1s ease forwards .3s;}
+.quali-banner{max-width:800px;margin:0 auto;background:rgba(212,168,83,.08);border:1px solid var(--gt);border-radius:10px;padding:20px 30px;display:flex;align-items:center;justify-content:center;gap:20px;box-shadow:0 0 20px rgba(212,168,83,.15);}
+.quali-banner h3{color:var(--gt);font-size:18px;margin-bottom:5px;}
+.quali-banner p{color:#eee;font-size:13px;margin:0;}
+.services-container{position:relative;z-index:1;max-width:1200px;margin:60px auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
+.service-card{background:rgba(34,26,14,.92);border:1px solid #3a2a10;border-radius:12px;padding:40px 30px;text-align:center;transition:all .4s;position:relative;overflow:hidden;}
+.service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--gt);transform:scaleX(0);transition:transform .4s;transform-origin:left;}
+.service-card:hover{transform:translateY(-10px);border-color:var(--gt);box-shadow:0 15px 30px rgba(0,0,0,.5),0 0 20px rgba(212,168,83,.15);}
+.service-card:hover::before{transform:scaleX(1);}
+.service-icon{font-size:45px;margin-bottom:20px;display:block;}
+.service-card h3{font-size:22px;color:#fff;margin-bottom:15px;letter-spacing:1px;}
+.service-card p{color:#aaa;font-size:14px;margin-bottom:20px;}
+.service-list{list-style:none;text-align:left;margin-top:20px;border-top:1px solid #3a2a10;padding-top:20px;}
+.service-list li{font-size:13px;color:#ddd;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.service-list li::before{content:'✓';color:var(--gt);font-weight:bold;}
+.cf{position:relative;z-index:1;background:rgba(26,18,8,.88);border-top:2px solid #3a2a10;padding:50px 20px 20px;}
+.cf::before{content:'';position:absolute;top:-2px;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--gt),transparent);box-shadow:0 0 15px var(--gt);}
+.fc{max-width:1000px;margin:0 auto;}
+.fh{text-align:center;margin-bottom:35px;}
+.fh h2{font-size:22px;font-weight:800;text-transform:uppercase;margin-bottom:12px;color:#fff;}
+.fh h2 span{color:var(--gt);animation:cgt 3s infinite ease-in-out;}
+.fh p{color:#ddd;font-size:14px;font-weight:600;}
+.tg{display:grid;grid-template-columns:1fr;gap:25px;margin-bottom:40px;}
+@media(min-width:600px){.tg{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:900px){.tg{grid-template-columns:repeat(3,1fr);}}
+.tw{background:var(--dk);border:1px solid #3a2a10;border-radius:12px;overflow:hidden;width:100%;max-width:325px;margin:0 auto;aspect-ratio:9/16;position:relative;transition:all .3s;}
+.tw:hover{border-color:var(--gt);box-shadow:0 0 20px var(--gg);transform:translateY(-5px);}
+.tw iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.fb2{text-align:center;padding:15px 20px;border-top:1px solid #3a2a10;color:#888;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;}
+.fb2 span{color:var(--gt);}
+@media(max-width:768px){header{padding:0;}.header-top{padding:10px 12px;}.bi{display:flex;}.lc img{width:150px;}.shp{gap:10px;}.soc-icon{width:34px;height:34px;}.soc-icon svg{width:16px;height:16px;}.soc-label{font-size:8px;}.repair-hero h1{font-size:24px;}.quali-banner{flex-direction:column;text-align:center;}.services-container{padding:0 15px;}nav ul{display:none;flex-direction:column;gap:0;width:100%;padding:8px 0 0;margin-top:10px;border-top:1px solid #eee;background:#fff;}nav a{width:100%;padding:12px 20px;border-bottom:1px solid #f9f9f9;font-size:13px;}#tm:checked ~ header nav ul{display:flex;}#tm:checked ~ header .bi span:nth-child(1){transform:translateY(8px) rotate(45deg);}#tm:checked ~ header .bi span:nth-child(2){opacity:0;}#tm:checked ~ header .bi span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}.mag-sw a{font-size:9px;padding:4px 8px;}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cgt{0%,100%{text-shadow:0 0 8px var(--gg)}50%{text-shadow:0 0 18px var(--gn),0 0 25px var(--gt)}}
+</style>
+<script src="wood.js"></script>
+<script>if(typeof WOOD_URI!=='undefined')document.documentElement.style.setProperty('--wood-texture','url('+WOOD_URI+')');</script>
+</head>
+<body>
+<input type="checkbox" id="tm">
+<header>
+  <div class="header-top">
+    <label for="tm" class="bi"><span></span><span></span><span></span></label>
+    <div class="lc"><img src="erasebg-transformed.png" alt="Logo Le Smart'elier"></div>
+    <div class="shp">
+      <a href="https://www.facebook.com/lesmartelier" target="_blank" class="soc-btn soc-fb">
+        <div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+        <span class="soc-label">Facebook</span>
+      </a>
+      <a href="https://www.instagram.com/le.smartelier" target="_blank" class="soc-btn soc-ig">
+        <div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        <span class="soc-label">Instagram</span>
+      </a>
+      <a href="#" class="soc-btn soc-tt">
+        <div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg></div>
+        <span class="soc-label">TikTok</span>
+      </a>
+    </div>
+  </div>
+  <div class="mag-sw">
+    <a href="home-cig-phone.html"><img src="cigandphone-pornic (3).png">Cig &amp; Phone</a>
+    <a href="home-sos-mobile.html"><img src="result_0.png">SOS Info.Mobile</a>
+    <a href="home-le-smartelier.html" class="cur"><img src="erasebg-transformed.png">Le Smart'elier</a>
+  </div>
+  <nav><ul>
+    <li><a href="home-le-smartelier.html">Accueil</a></li>
+    <li><a href="reparation-smartelier.html" class="active">Réparation</a></li>
+    <li><a href="protection-smartelier.html">Protection</a></li>
+    <li><a href="index.html">Nos boutiques</a></li>
+  </ul></nav>
+</header>
+<main>
+<section class="repair-hero">
+  <h1>Expert en <span>Réparation</span></h1>
+  <p>Écran cassé, batterie fatiguée ou problème logiciel ? L'équipe du Smart'elier à Machecoul redonne vie à vos appareils rapidement et avec des pièces de qualité.</p>
+  <div class="quali-banner"><div><h3>🏅 Labellisé QualiRépar</h3><p>Bénéficiez d'une remise immédiate sur votre facture grâce à notre certification officielle.</p></div></div>
+</section>
+<section class="services-container">
+  <div class="service-card"><span class="service-icon">📱</span><h3>Smartphones</h3><p>Apple, Samsung, Xiaomi et toutes marques. Intervention sur la majorité des pannes courantes.</p><ul class="service-list"><li>Remplacement d'écran (LCD / OLED)</li><li>Changement de batterie</li><li>Réparation connecteur de charge</li><li>Appareil photo / Lentille arrière</li><li>Désoxydation</li></ul></div>
+  <div class="service-card"><span class="service-icon">📠</span><h3>Tablettes</h3><p>iPad, Galaxy Tab... Retrouvez le confort d'utilisation de votre tablette comme au premier jour.</p><ul class="service-list"><li>Vitre tactile brisée / Écran noir</li><li>Problème d'autonomie (Batterie)</li><li>Bouton Home / Volume bloqué</li><li>Problème de charge</li><li>Récupération de données</li></ul></div>
+  <div class="service-card"><span class="service-icon">💻</span><h3>Ordinateurs</h3><p>PC Windows ou Mac. Diagnostic précis pour les problèmes matériels ou les lenteurs logicielles.</p><ul class="service-list"><li>Remplacement Disque Dur / SSD</li><li>Dépannage système (Lenteurs, Virus)</li><li>Changement d'écran PC Portable</li><li>Problème de clavier / Batterie</li><li>Nettoyage et entretien</li></ul></div>
+</section>
+</main>
+<footer class="cf"><div class="fc">
+<div class="fh"><h2>Au <span>Smart'elier</span>, la réparation <span>haut de gamme</span></h2><p>Nos dernières réparations en vidéo.</p></div>
+<div class="tg">
+<div class="tw"><iframe src="https://www.tiktok.com/embed/v2/7607488769901612310?hide_cookie_banner=1" frameborder="0" allowfullscreen scrolling="no"></iframe></div>
+<div class="tw"><iframe src="https://www.tiktok.com/embed/v2/7635277983648877846?hide_cookie_banner=1" frameborder="0" allowfullscreen scrolling="no"></iframe></div>
+<div class="tw"><iframe src="https://www.tiktok.com/embed/v2/7546575432808697110?hide_cookie_banner=1" frameborder="0" allowfullscreen scrolling="no"></iframe></div>
+</div>
+</div>
+<div class="fb2">&copy; 2026 <span>Le Smart'elier</span>. Tous droits réservés.</div>
+</footer>
+</body>
+</html>
