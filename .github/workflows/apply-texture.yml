@@ -5,25 +5,31 @@ on:
 jobs:
   patch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore original HTML files from git blobs
+        run: |
+          git cat-file -p 6f1af896d3ca834ddb30fc7d66d2b6741d485772 > home-le-smartelier.html
+          git cat-file -p 46d78ea9bca93e078fa0123d08df2786c2fccb05 > reparation-smartelier.html
+          git cat-file -p 345b98ae94f980549f0da73968d7afeb21647e4f > protection-smartelier.html
+          echo "Originals restored"
+          wc -c home-le-smartelier.html reparation-smartelier.html protection-smartelier.html
+
       - name: Patch HTML files with wood texture
         run: |
           python3 - <<'PYEOF'
-import base64, re
-
+import re
 with open('wood_b64.txt') as f:
     b64 = f.read().strip()
-
-data_uri = f'data:image/jpeg;base64,{b64}'
 wood_js = f'var WOOD_URI="data:image/jpeg;base64,{b64}";'
-
 with open('wood.js', 'w') as f:
     f.write(wood_js)
-
-script_tag = '<script src="wood.js"></script>\n<script>document.documentElement.style.setProperty("--wood-texture","url("+WOOD_URI+")");</script>\n'
-
-# Patch home
+script_tag = ('<script src="wood.js"></script>\n<script>document.documentElement.style.setProperty("--wood-texture","url("+WOOD_URI+")");</script>\n')
 with open('home-le-smartelier.html') as f:
     html = f.read()
 start = html.find('--wood-texture: url("data:image/svg+xml,')
@@ -34,7 +40,7 @@ html = html.replace('background-size:120px 80px', 'background-size:600px auto')
 html = html.replace('</head>', script_tag + '</head>')
 with open('home-le-smartelier.html', 'w') as f:
     f.write(html)
-
+print('home:', len(html))
 for fname in ['reparation-smartelier.html', 'protection-smartelier.html']:
     with open(fname) as f:
         html = f.read()
@@ -47,15 +53,16 @@ for fname in ['reparation-smartelier.html', 'protection-smartelier.html']:
     html = html.replace('</head>', script_tag + '</head>')
     with open(fname, 'w') as f:
         f.write(html)
-
-print('Done!')
+    print(fname, len(html))
+print('All done!')
 PYEOF
-      - name: Commit changes
+
+      - name: Commit
         run: |
           git config user.name "GAIA Code"
           git config user.email "noreply@gaiacode.pro"
           git add wood.js home-le-smartelier.html reparation-smartelier.html protection-smartelier.html
-          git diff --cached --quiet || git commit -m "style: apply wood photo texture on all 3 pages
+          git diff --cached --quiet || git commit -m "style: apply wood photo texture on all 3 Smart'elier pages
 
 Co-Authored-By: GAIA Code <noreply@gaiacode.pro>"
           git push
