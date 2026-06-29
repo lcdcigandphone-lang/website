@@ -62,11 +62,18 @@ nav a:hover{color:var(--gt);}
 .screen-time{position:relative;z-index:5;font-size:28px;font-weight:800;color:#fff;font-family:-apple-system,sans-serif;text-shadow:0 0 10px rgba(255,255,255,.3);margin-top:4px;letter-spacing:1px;}
 .screen-bottom{position:relative;z-index:5;width:80%;display:flex;justify-content:space-between;}
 .screen-icon{width:33px;height:33px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:15px;border:1px solid rgba(255,255,255,.1);}
-.screen-shine{position:absolute;inset:0;border-radius:30px;background:linear-gradient(115deg,transparent 0%,transparent 30%,rgba(255,255,255,.03) 38%,rgba(255,255,255,.18) 45%,rgba(255,255,255,.28) 48%,rgba(255,255,255,.18) 51%,rgba(255,255,255,.03) 58%,transparent 65%,transparent 100%);background-size:300% 100%;background-position:200% 0;animation:slideShine 3.5s ease-in-out infinite;pointer-events:none;z-index:20;}
-@keyframes slideShine{0%{background-position:200% 0;opacity:.8}50%{background-position:-50% 0;opacity:1}100%{background-position:200% 0;opacity:.8}}
-.screen-sparkle{position:absolute;inset:0;border-radius:30px;pointer-events:none;z-index:22;opacity:0;}
-.screen-sparkle.pop{animation:sparkPop .4s ease-out forwards;}
-@keyframes sparkPop{0%{opacity:0;}30%{opacity:1;background:radial-gradient(ellipse at 45% 40%,rgba(255,255,255,.8) 0%,rgba(180,255,200,.4) 35%,transparent 65%);}70%{opacity:.5;background:radial-gradient(ellipse at 55% 45%,rgba(255,255,255,.4) 0%,rgba(100,255,150,.15) 40%,transparent 70%);}100%{opacity:0;}}
+/* REFLET : balayage lumineux diagonal, pas de flash central */
+.screen-shine{position:absolute;inset:0;border-radius:30px;pointer-events:none;z-index:20;
+  background:linear-gradient(115deg,transparent 0%,transparent 35%,rgba(255,255,255,.04) 42%,rgba(255,255,255,.22) 48%,rgba(255,255,255,.32) 50%,rgba(255,255,255,.22) 52%,rgba(255,255,255,.04) 58%,transparent 65%,transparent 100%);
+  background-size:300% 100%;background-position:200% 0;
+  opacity:0;transition:opacity .3s;}
+.screen-shine.glide{animation:shineGlide 1s ease-in-out forwards;}
+@keyframes shineGlide{
+  0%{background-position:200% 0;opacity:0;}
+  15%{opacity:1;}
+  85%{opacity:1;}
+  100%{background-position:-50% 0;opacity:0;}
+}
 .screen-edge{position:absolute;inset:0;border-radius:30px;box-shadow:inset 0 0 8px rgba(57,255,20,.12),inset 0 0 2px rgba(255,255,255,.15);pointer-events:none;z-index:21;}
 #hydro-canvas{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:480px;height:480px;pointer-events:none;z-index:50;}
 .info-square{background:rgba(26,26,30,.85);border:1px solid var(--gt);border-radius:18px;padding:35px;width:300px;text-align:left;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,.6),inset 0 0 20px rgba(76,175,80,.1);position:relative;overflow:hidden;}
@@ -134,8 +141,7 @@ nav a:hover{color:var(--gt);}
             <img class="screen-logo" src="cigandphone-pornic (3).png" alt="logo">
             <div class="screen-bottom"><div class="screen-icon">🔦</div><div class="screen-icon">📷</div></div>
           </div>
-          <div class="screen-shine"></div>
-          <div class="screen-sparkle" id="screen-sparkle"></div>
+          <div class="screen-shine" id="screen-shine"></div>
           <div class="screen-edge"></div>
         </div>
       </div>
@@ -161,22 +167,14 @@ nav a:hover{color:var(--gt);}
 </footer>
 <script>
 (function(){
-  // HEURE EN TEMPS REEL
   var timeEl=document.getElementById('screen-time');
-  function updateTime(){
-    var n=new Date();
-    var h=String(n.getHours()).padStart(2,'0');
-    var m=String(n.getMinutes()).padStart(2,'0');
-    timeEl.textContent=h+':'+m;
-  }
-  updateTime();
-  setInterval(updateTime,10000);
+  function updateTime(){var n=new Date(),h=String(n.getHours()).padStart(2,'0'),m=String(n.getMinutes()).padStart(2,'0');timeEl.textContent=h+':'+m;}
+  updateTime();setInterval(updateTime,10000);
 
-  var canvas=document.getElementById('hydro-canvas'),ctx=canvas.getContext('2d'),scene=document.getElementById('phone-scene'),sp=document.getElementById('screen-sparkle');
+  var canvas=document.getElementById('hydro-canvas'),ctx=canvas.getContext('2d'),scene=document.getElementById('phone-scene'),shine=document.getElementById('screen-shine');
   canvas.width=480;canvas.height=480;
   var O=['🔨','🪨','🔑','🪛','🔧','🗝️','💎','🪤','🔩','🧲','🪃'];
   var CX=240,CY=240,PW=88,PH=182,parts=[],shakeT=0,shaking=false;
-
   function rnd(a,b){return a+Math.random()*(b-a);}
 
   function spawn(){
@@ -186,39 +184,43 @@ nav a:hover{color:var(--gt);}
     else if(s===2){sx=rnd(40,440);sy=520;}
     else{sx=-40;sy=rnd(40,440);}
     var dx=CX-sx,dy=CY-sy,d=Math.sqrt(dx*dx+dy*dy)||1,v=rnd(3.5,6);
-    // objets plus grands: sz entre 38 et 55
     parts.push({x:sx,y:sy,vx:dx/d*v,vy:dy/d*v,e:e,sz:rnd(38,55),r:rnd(0,6.28),rs:rnd(-.15,.15),a:1,st:'fly',bx:0,by:0});
   }
 
-  function pop(){sp.classList.remove('pop');void sp.offsetWidth;sp.classList.add('pop');}
+  // Reflet brillant : balayage diagonal 2x avec ~1.5s d'écart, déclenché après la vague
+  function triggerGlide(){
+    shine.classList.remove('glide');void shine.offsetWidth;shine.classList.add('glide');
+    setTimeout(function(){
+      shine.classList.remove('glide');void shine.offsetWidth;shine.classList.add('glide');
+    },1500);
+  }
 
   function wave(){
     var tot=4+Math.floor(Math.random()*2),batches=[],rem=tot;
     while(rem>0){var n=(rem>=2&&Math.random()>.4)?2:1;n=Math.min(n,rem);batches.push(n);rem-=n;}
     var t=0;
     batches.forEach(function(c){setTimeout(function(){for(var i=0;i<c;i++)spawn();},t);t+=Math.round(rnd(500,1300));});
-    setTimeout(function(){pop();setTimeout(function(){pop();setTimeout(wave,rnd(3000,4200));},rnd(600,1000));},t+2000);
+    // reflet 2x environ 5s après le début de la vague, puis prochaine vague après ~3-4s de pause
+    setTimeout(function(){
+      triggerGlide();
+      setTimeout(wave,rnd(3000,4200));
+    },t+2200);
   }
 
   function tick(){
-    // tremblement seulement si shakeT>0
     if(shakeT>0){
-      shakeT--;
-      var i=shakeT/30;
+      shakeT--;var i=shakeT/30;
       scene.style.transform='rotateX('+(8+rnd(-22,22)*i)+'deg) rotateY('+(-15+rnd(-22,22)*i)+'deg)';
     } else if(shaking){
       shaking=false;
       scene.style.transform='rotateX(8deg) rotateY(-15deg)';
     }
-
     parts.forEach(function(p){
       if(p.st==='fly'){
         p.x+=p.vx;p.y+=p.vy;p.r+=p.rs;
         if(p.x>CX-PW&&p.x<CX+PW&&p.y>CY-PH&&p.y<CY+PH){
-          p.st='bounce';
-          var nx=p.x-CX,ny=p.y-CY,nl=Math.sqrt(nx*nx+ny*ny)||1,v=rnd(6,9.5);
+          p.st='bounce';var nx=p.x-CX,ny=p.y-CY,nl=Math.sqrt(nx*nx+ny*ny)||1,v=rnd(6,9.5);
           p.bx=nx/nl*v+rnd(-2,2);p.by=ny/nl*v-3;p.rs=rnd(-.45,.45);
-          // tremblement uniquement ici
           shakeT=30;shaking=true;
         }
       } else {
@@ -227,21 +229,16 @@ nav a:hover{color:var(--gt);}
       }
     });
     parts=parts.filter(function(p){return p.st!=='dead';});
-
     ctx.clearRect(0,0,480,480);
     parts.forEach(function(p){
       ctx.save();ctx.globalAlpha=Math.max(0,p.a);
       ctx.translate(p.x,p.y);ctx.rotate(p.r);
-      ctx.font=p.sz+'px serif';
-      ctx.textAlign='center';ctx.textBaseline='middle';
-      // ombre pour mieux voir les objets
+      ctx.font=p.sz+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';
       ctx.shadowColor='rgba(0,0,0,0.7)';ctx.shadowBlur=6;
-      ctx.fillText(p.e,0,0);
-      ctx.restore();
+      ctx.fillText(p.e,0,0);ctx.restore();
     });
     requestAnimationFrame(tick);
   }
-
   wave();tick();
 })();
 </script>
