@@ -1,1 +1,1 @@
-var WOOD_URI="data:image/jpeg;base64,PLACEHOLDER";
+WOOD_JS_CONTENT_PLACEHOLDER
