@@ -61,13 +61,13 @@ nav a.active{color:var(--gt);}nav a::after{content:'';position:absolute;bottom:0
 .phone-front{transform:translateZ(11px);background:#000;border:3px solid #1c1c1e;overflow:hidden;box-shadow:0 0 20px rgba(76,175,80,.3);border-radius:33px;}
 .phone-front-red{box-shadow:0 0 20px rgba(229,57,53,.3)!important;}
 .dynamic-island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:62px;height:18px;background:#000;border-radius:10px;z-index:10;}
-.screen-bg{position:absolute;inset:0;border-radius:30px;background-color:#fff;background-image:url('cigandphone-pornic (3).png');background-size:78%;background-position:center;background-repeat:no-repeat;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:35px 0 18px;overflow:hidden;}
+.screen-bg{position:absolute;inset:0;border-radius:30px;background-color:#111;background-image:url('https://images.unsplash.com/photo-1689871176637-3421f13f4e6c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zm9uZCUyMGQlRTIlODAlOTklQzMlQTljcmFuJTIwaXBob25lJTIwMTR8ZW58MHx8MHx8fDA%3D');background-size:cover;background-position:center;background-repeat:no-repeat;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:35px 0 18px;overflow:hidden;}
 .screen-bg::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.12));border-radius:30px;pointer-events:none;}
 #dead-canvas-b{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:30px;pointer-events:none;z-index:20;}
 #crack-canvas-b{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:30px;pointer-events:none;z-index:25;}
-.screen-time{position:relative;z-index:5;font-size:28px;font-weight:800;color:#111;font-family:-apple-system,sans-serif;text-shadow:0 1px 3px rgba(0,0,0,.15);margin-top:4px;letter-spacing:1px;}
+.screen-time{position:relative;z-index:5;font-size:28px;font-weight:800;color:#fff;font-family:-apple-system,sans-serif;text-shadow:0 1px 6px rgba(0,0,0,.7);margin-top:4px;letter-spacing:1px;}
 .screen-bottom{position:relative;z-index:5;width:80%;display:flex;justify-content:space-between;}
-.screen-icon{width:33px;height:33px;background:rgba(0,0,0,.07);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:15px;border:1px solid rgba(0,0,0,.08);}
+.screen-icon{width:33px;height:33px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:15px;border:1px solid rgba(255,255,255,.3);}
 .screen-shine{position:absolute;inset:0;border-radius:30px;pointer-events:none;z-index:30;background:linear-gradient(115deg,transparent 0%,transparent 35%,rgba(255,255,255,.04) 42%,rgba(255,255,255,.22) 48%,rgba(255,255,255,.32) 50%,rgba(255,255,255,.22) 52%,rgba(255,255,255,.04) 58%,transparent 65%,transparent 100%);background-size:300% 100%;background-position:200% 0;opacity:0;transition:opacity .3s;}
 .screen-shine.glide{animation:shineGlide 1s ease-in-out forwards;}
 @keyframes shineGlide{0%{background-position:200% 0;opacity:0;}15%{opacity:1;}85%{opacity:1;}100%{background-position:-50% 0;opacity:0;}}
@@ -209,7 +209,7 @@ function switchTab(t){
       wrapper=document.getElementById('phone-wrapper-a'),
       shine=document.getElementById('screen-shine-a');
   canvas.width=480;canvas.height=480;
-  var O=['🔨','🪨','🔑','🪛','🔧','🗝️','💎','🪤','🔩','🧲','🪃'];
+  var O=['\uD83D\uDD28','\uD83E\uDEA8','\uD83D\uDD11','\uD83E\uDE9B','\uD83D\uDD27','\uD83D\uDDF9\uFE0F','\uD83D\uDC8E','\uD83E\uDEA4','\uD83D\uDD29','\uD83E\uDDF2','\uD83E\uDE83'];
   var CX=240,CY=240,PW=88,PH=182,parts=[],shakeT=0,shaking=false,waveTimer=null,hidden=false;
   var pRx=4,pRy=-7,curRx=4,curRy=-7,mouseOver=false,gyroOn=false,idleT=0;
   document.addEventListener('mousemove',function(e){if(gyroOn)return;var r=wrapper.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;pRx=4-(e.clientY-cy)/window.innerHeight*22;pRy=-7+(e.clientX-cx)/window.innerWidth*28;mouseOver=true;});
@@ -240,14 +240,14 @@ function switchTab(t){
       deadCanvas=document.getElementById('dead-canvas-b'),
       deadCtx=deadCanvas.getContext('2d');
   canvasB.width=480;canvasB.height=480;
-  var OB=['🔨','🪨','🔑','🪛','🔧','🗝️','💎','🪤','🔩','🧲','🪃'];
+  var OB=['\uD83D\uDD28','\uD83E\uDEA8','\uD83D\uDD11','\uD83E\uDE9B','\uD83D\uDD27','\uD83D\uDDF9\uFE0F','\uD83D\uDC8E','\uD83E\uDEA4','\uD83D\uDD29','\uD83E\uDDF2','\uD83E\uDE83'];
   var CX=240,CY=240,PW=88,PH=182;
   var partsB=[],shakeTB=0,shakingB=false,waveTB=null,hiddenB=false;
   var pRxB=4,pRyB=-7,curRxB=4,curRyB=-7,mouseOverB=false,gyroOnB=false,idleTB=0;
   var cracks=[],impactCount=0,deadMode=false,deadModeType=null,lastClick=0,deadAnimFrame=null,glitchPhase=0;
   function resizeCanvases(){var front=document.getElementById('front-b');var w=front.offsetWidth||175,h=front.offsetHeight||360;crackCanvas.width=w;crackCanvas.height=h;deadCanvas.width=w;deadCanvas.height=h;if(deadMode&&deadModeType)drawDeadScreen(deadModeType);drawAllCracks();}
   window.addEventListener('resize',resizeCanvases);setTimeout(resizeCanvases,250);
-  window.resetCracks=function(){cracks=[];impactCount=0;deadMode=false;deadModeType=null;if(deadAnimFrame){cancelAnimationFrame(deadAnimFrame);deadAnimFrame=null;}if(waveTB)clearTimeout(waveTB);partsB=[];shakeTB=0;shakingB=false;screenBg.style.backgroundImage='';screenBg.style.backgroundColor='';crackCtx.clearRect(0,0,crackCanvas.width,crackCanvas.height);deadCtx.clearRect(0,0,deadCanvas.width,deadCanvas.height);screenTime.style.display='';screenBottom.style.display='';scheduleWaveB(500);};
+  window.resetCracks=function(){cracks=[];impactCount=0;deadMode=false;deadModeType=null;if(deadAnimFrame){cancelAnimationFrame(deadAnimFrame);deadAnimFrame=null;}if(waveTB)clearTimeout(waveTB);partsB=[];shakeTB=0;shakingB=false;screenBg.style.backgroundImage='url(\'https://images.unsplash.com/photo-1689871176637-3421f13f4e6c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zm9uZCUyMGQlRTIlODAlOTklQzMlQTljcmFuJTIwaXBob25lJTIwMTR8ZW58MHx8MHx8fDA%3D\')';screenBg.style.backgroundSize='cover';screenBg.style.backgroundPosition='center';screenBg.style.backgroundColor='#111';crackCtx.clearRect(0,0,crackCanvas.width,crackCanvas.height);deadCtx.clearRect(0,0,deadCanvas.width,deadCanvas.height);screenTime.style.display='';screenBottom.style.display='';scheduleWaveB(500);};
   document.addEventListener('mousemove',function(e){if(gyroOnB)return;var r=wrapperB.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;pRxB=4-(e.clientY-cy)/window.innerHeight*22;pRyB=-7+(e.clientX-cx)/window.innerWidth*28;mouseOverB=true;});
   if(window.DeviceOrientationEvent)window.addEventListener('deviceorientation',function(e){if(e.beta===null&&e.gamma===null)return;gyroOnB=true;pRxB=4+Math.max(-30,Math.min(30,(e.beta||0)-20))*0.55;pRyB=-7+Math.max(-30,Math.min(30,e.gamma||0))*0.55;});
   wrapperB.addEventListener('click',function(e){var now=Date.now();if(now-lastClick<CLICK_COOLDOWN)return;lastClick=now;if(deadMode){spawnB();return;}var flying=partsB.filter(function(p){return p.st==='fly';}).length;if(flying>=MAX_OBJECTS)return;spawnB();});
