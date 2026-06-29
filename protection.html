@@ -62,18 +62,11 @@ nav a:hover{color:var(--gt);}
 .screen-time{position:relative;z-index:5;font-size:28px;font-weight:800;color:#fff;font-family:-apple-system,sans-serif;text-shadow:0 0 10px rgba(255,255,255,.3);margin-top:4px;letter-spacing:1px;}
 .screen-bottom{position:relative;z-index:5;width:80%;display:flex;justify-content:space-between;}
 .screen-icon{width:33px;height:33px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:15px;border:1px solid rgba(255,255,255,.1);}
-/* REFLET : balayage lumineux diagonal, pas de flash central */
 .screen-shine{position:absolute;inset:0;border-radius:30px;pointer-events:none;z-index:20;
   background:linear-gradient(115deg,transparent 0%,transparent 35%,rgba(255,255,255,.04) 42%,rgba(255,255,255,.22) 48%,rgba(255,255,255,.32) 50%,rgba(255,255,255,.22) 52%,rgba(255,255,255,.04) 58%,transparent 65%,transparent 100%);
-  background-size:300% 100%;background-position:200% 0;
-  opacity:0;transition:opacity .3s;}
+  background-size:300% 100%;background-position:200% 0;opacity:0;transition:opacity .3s;}
 .screen-shine.glide{animation:shineGlide 1s ease-in-out forwards;}
-@keyframes shineGlide{
-  0%{background-position:200% 0;opacity:0;}
-  15%{opacity:1;}
-  85%{opacity:1;}
-  100%{background-position:-50% 0;opacity:0;}
-}
+@keyframes shineGlide{0%{background-position:200% 0;opacity:0;}15%{opacity:1;}85%{opacity:1;}100%{background-position:-50% 0;opacity:0;}}
 .screen-edge{position:absolute;inset:0;border-radius:30px;box-shadow:inset 0 0 8px rgba(57,255,20,.12),inset 0 0 2px rgba(255,255,255,.15);pointer-events:none;z-index:21;}
 #hydro-canvas{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:480px;height:480px;pointer-events:none;z-index:50;}
 .info-square{background:rgba(26,26,30,.85);border:1px solid var(--gt);border-radius:18px;padding:35px;width:300px;text-align:left;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,.6),inset 0 0 20px rgba(76,175,80,.1);position:relative;overflow:hidden;}
@@ -167,6 +160,7 @@ nav a:hover{color:var(--gt);}
 </footer>
 <script>
 (function(){
+  // Heure temps reel
   var timeEl=document.getElementById('screen-time');
   function updateTime(){var n=new Date(),h=String(n.getHours()).padStart(2,'0'),m=String(n.getMinutes()).padStart(2,'0');timeEl.textContent=h+':'+m;}
   updateTime();setInterval(updateTime,10000);
@@ -174,7 +168,10 @@ nav a:hover{color:var(--gt);}
   var canvas=document.getElementById('hydro-canvas'),ctx=canvas.getContext('2d'),scene=document.getElementById('phone-scene'),shine=document.getElementById('screen-shine');
   canvas.width=480;canvas.height=480;
   var O=['🔨','🪨','🔑','🪛','🔧','🗝️','💎','🪤','🔩','🧲','🪃'];
-  var CX=240,CY=240,PW=88,PH=182,parts=[],shakeT=0,shaking=false;
+  var CX=240,CY=240,PW=88,PH=182;
+  var parts=[],shakeT=0,shaking=false;
+  var waveTimer=null,hidden=false;
+
   function rnd(a,b){return a+Math.random()*(b-a);}
 
   function spawn(){
@@ -187,25 +184,55 @@ nav a:hover{color:var(--gt);}
     parts.push({x:sx,y:sy,vx:dx/d*v,vy:dy/d*v,e:e,sz:rnd(38,55),r:rnd(0,6.28),rs:rnd(-.15,.15),a:1,st:'fly',bx:0,by:0});
   }
 
-  // Reflet brillant : balayage diagonal 2x avec ~1.5s d'écart, déclenché après la vague
   function triggerGlide(){
     shine.classList.remove('glide');void shine.offsetWidth;shine.classList.add('glide');
-    setTimeout(function(){
-      shine.classList.remove('glide');void shine.offsetWidth;shine.classList.add('glide');
-    },1500);
+    setTimeout(function(){shine.classList.remove('glide');void shine.offsetWidth;shine.classList.add('glide');},1500);
+  }
+
+  function scheduleWave(delay){
+    if(waveTimer)clearTimeout(waveTimer);
+    waveTimer=setTimeout(wave, delay);
   }
 
   function wave(){
+    // Si onglet cache, on reporte
+    if(hidden){scheduleWave(1000);return;}
+    // Vider les particules fantomes eventuelles
+    parts=[];
+    shakeT=0;shaking=false;
+    scene.style.transform='rotateX(8deg) rotateY(-15deg)';
+
     var tot=4+Math.floor(Math.random()*2),batches=[],rem=tot;
     while(rem>0){var n=(rem>=2&&Math.random()>.4)?2:1;n=Math.min(n,rem);batches.push(n);rem-=n;}
     var t=0;
-    batches.forEach(function(c){setTimeout(function(){for(var i=0;i<c;i++)spawn();},t);t+=Math.round(rnd(500,1300));});
-    // reflet 2x environ 5s après le début de la vague, puis prochaine vague après ~3-4s de pause
+    batches.forEach(function(c){
+      (function(delay,count){
+        setTimeout(function(){if(!hidden)for(var i=0;i<count;i++)spawn();},delay);
+      })(t,c);
+      t+=Math.round(rnd(500,1300));
+    });
     setTimeout(function(){
       triggerGlide();
-      setTimeout(wave,rnd(3000,4200));
+      scheduleWave(rnd(3000,4200));
     },t+2200);
   }
+
+  // Page Visibility API : reset propre au retour
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){
+      hidden=true;
+      if(waveTimer)clearTimeout(waveTimer);
+    } else {
+      hidden=false;
+      // Vider les particules qui ont voyage pendant l'absence
+      parts=[];
+      shakeT=0;shaking=false;
+      scene.style.transform='rotateX(8deg) rotateY(-15deg)';
+      ctx.clearRect(0,0,480,480);
+      // Relancer une vague fraiche dans 800ms
+      scheduleWave(800);
+    }
+  });
 
   function tick(){
     if(shakeT>0){
@@ -219,7 +246,8 @@ nav a:hover{color:var(--gt);}
       if(p.st==='fly'){
         p.x+=p.vx;p.y+=p.vy;p.r+=p.rs;
         if(p.x>CX-PW&&p.x<CX+PW&&p.y>CY-PH&&p.y<CY+PH){
-          p.st='bounce';var nx=p.x-CX,ny=p.y-CY,nl=Math.sqrt(nx*nx+ny*ny)||1,v=rnd(6,9.5);
+          p.st='bounce';
+          var nx=p.x-CX,ny=p.y-CY,nl=Math.sqrt(nx*nx+ny*ny)||1,v=rnd(6,9.5);
           p.bx=nx/nl*v+rnd(-2,2);p.by=ny/nl*v-3;p.rs=rnd(-.45,.45);
           shakeT=30;shaking=true;
         }
@@ -239,6 +267,7 @@ nav a:hover{color:var(--gt);}
     });
     requestAnimationFrame(tick);
   }
+
   wave();tick();
 })();
 </script>
