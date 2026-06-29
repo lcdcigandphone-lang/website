@@ -1,9 +1,14 @@
 /* form-helpers.js — GAIA Code
    1. Auto-formatage téléphone français (0X XX XX XX XX)
    2. Suggestions e-mail françaises en temps réel
+   Couleur de surbrillance adaptive via var(--gt) de chaque page
 */
 (function(){
   'use strict';
+
+  /* ── Couleur thème de la page ── */
+  var pageColor = getComputedStyle(document.documentElement)
+                    .getPropertyValue('--gt').trim() || '#4CAF50';
 
   /* ── 1. FORMATAGE TÉLÉPHONE ── */
   function formatPhone(val){
@@ -18,7 +23,7 @@
 
   function initPhoneInputs(){
     document.querySelectorAll('input[type="tel"]').forEach(function(inp){
-      inp.addEventListener('input',function(e){
+      inp.addEventListener('input',function(){
         var start=inp.selectionStart;
         var oldLen=inp.value.length;
         inp.value=formatPhone(inp.value);
@@ -43,22 +48,33 @@
     'gmail.com','outlook.fr','orange.fr','yahoo.fr',
     'free.fr','laposte.net','sfr.fr','bouyguestelecom.fr',
     'hotmail.fr','icloud.com','outlook.com','yahoo.com',
-    'live.fr','wanadoo.fr','numericable.fr'
+    'live.fr','wanadoo.fr','numericable.fr','proton.me'
   ];
+
+  /* Couleur de surbrillance dérivée du thème */
+  function hexToRgba(hex,alpha){
+    hex=hex.replace('#','');
+    if(hex.length===3) hex=hex.split('').map(function(c){return c+c;}).join('');
+    var r=parseInt(hex.slice(0,2),16);
+    var g=parseInt(hex.slice(2,4),16);
+    var b=parseInt(hex.slice(4,6),16);
+    return 'rgba('+r+','+g+','+b+','+alpha+')';
+  }
+  var hoverBg   = hexToRgba(pageColor, 0.18);
+  var boldColor = pageColor;
 
   var style=document.createElement('style');
   style.textContent=[
     '.fh-sugg{position:absolute;z-index:9999;background:#1a1a1e;border:1px solid #444;border-radius:6px;',
     'box-shadow:0 6px 20px rgba(0,0,0,.5);width:100%;max-height:220px;overflow-y:auto;margin-top:2px;}',
     '.fh-sugg-item{padding:10px 14px;font-size:13px;color:#eee;cursor:pointer;transition:background .15s;}',
-    '.fh-sugg-item:hover,.fh-sugg-item.fh-active{background:rgba(255,107,0,.18);color:#fff;}',
-    '.fh-sugg-item span.fh-bold{color:#FF6B00;font-weight:700;}',
+    '.fh-sugg-item:hover,.fh-sugg-item.fh-active{background:'+hoverBg+';color:#fff;}',
+    '.fh-sugg-item span.fh-bold{color:'+boldColor+';font-weight:700;}',
     '.fh-wrap{position:relative;}'
   ].join('');
   document.head.appendChild(style);
 
   function buildSuggestions(inputEl){
-    /* Wrap dans un div relatif si pas déjà fait */
     var parent=inputEl.parentNode;
     if(!parent.classList.contains('fh-wrap')){
       var wrap=document.createElement('div');
@@ -77,12 +93,16 @@
     var activeIdx=-1;
     var currentItems=[];
 
+    function escHtml(s){
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
     function show(items){
       currentItems=items;
       activeIdx=-1;
       box.innerHTML='';
       if(!items.length){box.style.display='none';return;}
-      items.forEach(function(s,i){
+      items.forEach(function(s){
         var li=document.createElement('div');
         li.className='fh-sugg-item';
         var atIdx=s.indexOf('@');
@@ -98,10 +118,6 @@
         box.appendChild(li);
       });
       box.style.display='block';
-    }
-
-    function escHtml(s){
-      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
     function setActive(idx){
@@ -124,15 +140,23 @@
 
     inputEl.addEventListener('keydown',function(e){
       if(box.style.display==='none') return;
-      if(e.key==='ArrowDown'){e.preventDefault();activeIdx=Math.min(activeIdx+1,currentItems.length-1);setActive(activeIdx);}
-      else if(e.key==='ArrowUp'){e.preventDefault();activeIdx=Math.max(activeIdx-1,0);setActive(activeIdx);}
-      else if(e.key==='Enter'||e.key==='Tab'){
+      if(e.key==='ArrowDown'){
+        e.preventDefault();
+        activeIdx=Math.min(activeIdx+1,currentItems.length-1);
+        setActive(activeIdx);
+      } else if(e.key==='ArrowUp'){
+        e.preventDefault();
+        activeIdx=Math.max(activeIdx-1,0);
+        setActive(activeIdx);
+      } else if(e.key==='Enter'||e.key==='Tab'){
         if(activeIdx>=0&&currentItems[activeIdx]){
           if(e.key==='Enter') e.preventDefault();
           inputEl.value=currentItems[activeIdx];
           box.style.display='none';
         }
-      } else if(e.key==='Escape'){box.style.display='none';}
+      } else if(e.key==='Escape'){
+        box.style.display='none';
+      }
     });
 
     inputEl.addEventListener('blur',function(){
