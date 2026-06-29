@@ -50,7 +50,6 @@ nav a.active{color:var(--wb2);}nav a::after{content:'';position:absolute;bottom:
 .bgo,.sl,.cg{position:absolute;top:0;left:0;width:100%;}
 .bgo{height:100%;background:rgba(12,7,2,.52);z-index:2;}
 .sl{height:4px;background:linear-gradient(to right,transparent,var(--gt),transparent);box-shadow:0 0 12px var(--gt);opacity:.7;z-index:3;animation:ls 6s linear infinite;}
-/* grille bois subtile au lieu de grille droite */
 .cg{height:100%;background-image:
   repeating-linear-gradient(8deg,rgba(200,135,74,.04) 0,rgba(200,135,74,.04) 1px,transparent 1px,transparent 38px),
   repeating-linear-gradient(98deg,rgba(160,92,42,.03) 0,rgba(160,92,42,.03) 1px,transparent 1px,transparent 52px);
@@ -70,7 +69,6 @@ nav a.active{color:var(--wb2);}nav a::after{content:'';position:absolute;bottom:
 .bp1{background:var(--gt);color:#1a0e00;box-shadow:0 0 15px var(--gg);border:1px solid var(--gt);animation:pg 2s infinite;}.bp1:hover{background:transparent;color:var(--gt);}
 .bss{background:transparent;color:#f0e6d8;border:1px solid rgba(240,230,216,.3);}.bss:hover{border-color:var(--gt);color:var(--gt);}
 .sb{background:var(--gt);color:#1a0e00;font-weight:bold;font-size:13px;padding:8px 15px;border-radius:20px;cursor:pointer;position:absolute;bottom:20px;right:20px;border:none;}
-/* Section contenu */
 .cs{
   background-image:url('IMG_1683.jpeg');background-size:cover;background-position:center;
   background-color:var(--dc);padding:60px 20px;
@@ -82,7 +80,6 @@ nav a.active{color:var(--wb2);}nav a::after{content:'';position:absolute;bottom:
 .sh{text-align:center;}.sh h2{font-size:26px;color:#f0e6d8;text-transform:uppercase;letter-spacing:1px;font-weight:800;margin-bottom:8px;}.sh h2 span{color:var(--gt);text-shadow:0 0 15px var(--gg);animation:cgt 3s infinite ease-in-out;}.sh p{color:#d4c0a8;font-size:14px;font-weight:600;}
 .mc{width:100%;border-radius:12px;overflow:hidden;border:2px solid var(--wb1);transition:all .3s;}.mc:hover{border-color:var(--gt);box-shadow:0 0 20px var(--gg);}.mc iframe{width:100%;height:300px;display:block;border:none;}
 .rw{position:relative;display:flex;align-items:center;width:100%;padding:0 30px;}.rc{display:flex;gap:15px;overflow-x:auto;scroll-behavior:smooth;padding:10px 5px;width:100%;scrollbar-width:none;}.rc::-webkit-scrollbar{display:none;}
-/* Cards avis : fond bois texturé */
 .rv{
   min-width:250px;
   background:var(--dk);
@@ -97,7 +94,6 @@ nav a.active{color:var(--wb2);}nav a::after{content:'';position:absolute;bottom:
   font-size:16px;cursor:pointer;display:flex;justify-content:center;align-items:center;
   position:absolute;z-index:10;transition:all .3s;flex-shrink:0;
 }.na:hover{background:var(--gt);color:#1a0e00;border-color:var(--gt);}.la{left:0;}.ra{right:0;}
-/* Formulaire */
 .con{
   width:100%;
   background:var(--dk);
@@ -118,7 +114,6 @@ nav a.active{color:var(--wb2);}nav a::after{content:'';position:absolute;bottom:
 .fg2 input:focus,.fg2 textarea:focus,.fg2 select:focus{border-color:var(--gt);box-shadow:0 0 12px var(--gg);}
 .fg2 textarea{resize:vertical;min-height:110px;}
 .fsb{width:100%;background:var(--gt);color:#1a0e00;border:none;border-radius:6px;padding:15px;font-size:14px;font-weight:700;text-transform:uppercase;cursor:pointer;transition:all .3s;}.fsb:hover{background:#a06030;box-shadow:0 0 20px var(--gg);}
-/* Footer */
 .cf{background:var(--dc);background-image:var(--wood-texture);background-size:120px 80px;border-top:2px solid var(--wb1);padding:50px 20px 20px;position:relative;}
 .cf::before{content:'';position:absolute;top:-2px;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--gt),transparent);box-shadow:0 0 15px var(--gt);}
 .fc{max-width:1000px;margin:0 auto;}.fh{text-align:center;margin-bottom:35px;}.fh h2{font-size:22px;font-weight:800;text-transform:uppercase;margin-bottom:12px;color:#f0e6d8;}.fh h2 span{color:var(--gt);animation:cgt 3s infinite ease-in-out;}.fh p{color:#d4c0a8;font-size:14px;font-weight:600;}
@@ -130,7 +125,6 @@ nav a.active{color:var(--wb2);}nav a::after{content:'';position:absolute;bottom:
 }.tw:hover{border-color:var(--gt);box-shadow:0 0 20px var(--gg);transform:translateY(-5px);}
 .tw iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
 .fb2{text-align:center;padding:15px 20px;border-top:1px solid var(--wb1);color:#8a7060;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;}.fb2 span{color:var(--gt);}
-/* Responsive */
 @media(max-width:768px){.bi{display:flex;}.lc img{width:150px;}.shp{gap:10px;}.soc-icon{width:34px;height:34px;}.soc-icon svg{width:16px;height:16px;}.soc-label{font-size:8px;}.header-side{min-width:40px;}nav ul{display:none;flex-direction:column;gap:0;width:100%;padding:8px 0 0;margin-top:10px;border-top:1px solid #eee;background:#fff;}nav a{width:100%;padding:12px 20px;border-bottom:1px solid #f9f9f9;font-size:13px;}#tm:checked ~ header nav ul{display:flex;}#tm:checked ~ header .bi span:nth-child(1){transform:translateY(9px) rotate(45deg);}#tm:checked ~ header .bi span:nth-child(2){opacity:0;}#tm:checked ~ header .bi span:nth-child(3){transform:translateY(-9px) rotate(-45deg);}.hs{height:calc(100svh - 155px);min-height:400px;padding:15px;}.cs{padding:40px 15px;}.mc iframe{height:230px;}.rw{padding:0 28px;}.rv{min-width:230px;}.con{padding:22px 15px;}.mag-sw a{font-size:9px;padding:4px 8px;}}
 @keyframes tfi{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes kb{0%{transform:scale(1)}100%{transform:scale(1.08)}}
@@ -160,7 +154,7 @@ nav a.active{color:var(--wb2);}nav a::after{content:'';position:absolute;bottom:
     <li><a href="home-le-smartelier.html" class="active">Accueil</a></li>
     <li><a href="reparation-smartelier.html">Réparation</a></li>
     <li><a href="protection-smartelier.html">Protection</a></li>
-    <li><a href="selection.html">Nos boutiques</a></li>
+    <li><a href="index.html">Nos boutiques</a></li>
   </ul></nav>
 </header>
 <main class="hs" style="position:relative;">
