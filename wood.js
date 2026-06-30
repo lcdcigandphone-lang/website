@@ -1,2 +1,2 @@
-/* wood texture — Smart'elier */
-var WOOD_URI="data:image/jpeg;base64,CHECK_NEXT_COMMIT";
+/* Le Smart'elier — wood texture photo */
+var WOOD_URI="data:image/jpeg;base64,WOOD_B64_PLACEHOLDER";
