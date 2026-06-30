@@ -1,19 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le Smart’elier — Réparation &amp; Reconditionné | Machecoul</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Smart'elier — Réparation &amp; Reconditionné | Machecoul</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --gt:#C8874A;
-  --gg:rgba(200,135,74,.55);
-  --gn:#E0A060;
-  --dc:#18110A;
-  --dk:#221608;
-  --wb1:#3B2510;
-  --wb2:#6B4020;
-  --wg1:#4A3828;
-  --wood-bg:url("WOOD_DATA_URI_PLACEHOLDER");
-}
-</style></head><body>placeholder</body></html>
+:root{--gt:#C8874A;--gg:rgba(212,168,83,.6);--gn:#E8C06A;--dc:#1A1208;--dk:#221A0E;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;}
+body{background:var(--dc);background-image:var(--wood-texture,none);background-size:600px auto;background-repeat:repeat;background-attachment:fixed;color:#fff;overflow-x:hidden;line-height:1.6;}
+body::before{content:'';position:fixed;inset:0;background:rgba(10,6,2,.78);pointer-events:none;z-index:0;}
+header{position:relative;z-index:1;background:linear-gradient(135deg,#2b1608 0%,#6c3914 45%,#c8874a 100%);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.25);}
+.header-top{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;}
+.bi{width:28px;height:20px;display:none;flex-direction:column;justify-content:space-between;cursor:pointer;z-index:120;flex-shrink:0;}
+.bi span{display:block;width:100%;height:3px;background:#fff;border-radius:2px;transition:all .3s;}
+.lc{flex:1;display:flex;justify-content:center;align-items:center;}
+.lc img{width:260px;max-width:100%;height:auto;}
+.shp{display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.soc-btn{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;transition:transform .2s;}
+.soc-btn:hover{transform:translateY(-2px);}
+.soc-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.soc-icon svg{width:20px;height:20px;fill:#fff;}
+.soc-fb .soc-icon{background:linear-gradient(145deg,#1877F2,#0a5dc2);}
+.soc-ig .soc-icon{background:radial-gradient(circle at 30% 110%,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);}
+.soc-tt .soc-icon{background:#000;border:1.5px solid #eee;}
+.soc-label{font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;color:#fff8f0;text-transform:uppercase;letter-spacing:.8px;text-shadow:0 1px 3px rgba(0,0,0,.25);}
+.mag-sw{display:flex;align-items:center;justify-content:center;gap:8px;padding:6px 20px 8px;border-bottom:1px solid rgba(255,255,255,.18);flex-wrap:wrap;background:rgba(0,0,0,.12);}
+.mag-sw a{display:flex;align-items:center;gap:6px;text-decoration:none;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border:1.5px solid rgba(255,255,255,.22);color:#fff8f0;transition:all .2s;}
+.mag-sw a:hover,.mag-sw a.cur{border-color:#f4d7aa;color:#fff;background:rgba(255,255,255,.16);}
+.mag-sw img{width:18px;height:18px;object-fit:contain;border-radius:3px;}
+nav ul{list-style:none;display:flex;justify-content:center;gap:28px;padding:10px 15px;flex-wrap:wrap;}
+nav a{text-decoration:none;color:#fff8f0;font-weight:600;text-transform:uppercase;font-size:14px;letter-spacing:1.5px;padding:8px 12px;position:relative;transition:color .3s;}
+nav a.active{color:#fff;}nav a::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:2px;background:#f4d7aa;transition:width .4s,left .4s;}nav a:hover::after,nav a.active::after{width:100%;left:0;}nav a:hover{color:#fff;}
+main{position:relative;z-index:1;}
+.hero{padding:80px 20px 60px;text-align:center;background:radial-gradient(circle at center,rgba(48,29,12,.85) 0%,rgba(26,18,8,.85) 60%,rgba(18,12,6,.95) 100%);}
+.hero h1{font-size:38px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;}
+.hero h1 span{color:var(--gt);text-shadow:0 0 15px var(--gg);}
+.hero p{max-width:760px;margin:0 auto 28px;color:#f0dfc6;font-size:16px;}
+.hero .cta{display:inline-block;padding:13px 22px;border-radius:999px;background:var(--gt);color:#1f1207;font-weight:700;text-decoration:none;box-shadow:0 0 20px var(--gg);}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;max-width:1100px;margin:-10px auto 60px;padding:0 20px;}
+.card{background:rgba(34,26,14,.92);border:1px solid rgba(244,215,170,.2);border-radius:14px;padding:28px 24px;box-shadow:0 12px 25px rgba(0,0,0,.25);}
+.card h3{font-size:18px;color:#fff;margin-bottom:10px;}
+.card p{color:#d7c7a8;font-size:14px;}
+footer{position:relative;z-index:1;background:rgba(26,18,8,.9);padding:40px 20px 24px;border-top:1px solid rgba(255,255,255,.16);text-align:center;color:#d7c7a8;}
+@media(max-width:768px){.bi{display:flex;}.lc img{width:150px;}.shp{gap:10px;}.soc-icon{width:34px;height:34px;}.soc-icon svg{width:16px;height:16px;}.soc-label{font-size:8px;}.hero{padding:60px 15px 40px;}.hero h1{font-size:24px;}.cards{padding:0 15px;}}
+</style>
+<script src="wood.js"></script>
+<script>if(typeof WOOD_URI!=='undefined')document.documentElement.style.setProperty('--wood-texture','url('+WOOD_URI+')');</script>
+</head>
+<body>
+<input type="checkbox" id="tm">
+<header>
+  <div class="header-top">
+    <label for="tm" class="bi"><span></span><span></span><span></span></label>
+    <div class="lc"><img src="erasebg-transformed.png" alt="Logo Le Smart'elier"></div>
+    <div class="shp">
+      <a href="https://www.facebook.com/lesmartelier" target="_blank" class="soc-btn soc-fb"><div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div><span class="soc-label">Facebook</span></a>
+      <a href="https://www.instagram.com/le.smartelier" target="_blank" class="soc-btn soc-ig"><div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div><span class="soc-label">Instagram</span></a>
+      <a href="#" class="soc-btn soc-tt"><div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg></div><span class="soc-label">TikTok</span></a>
+    </div>
+  </div>
+  <div class="mag-sw">
+    <a href="home-cig-phone.html"><img src="cigandphone-pornic (3).png">Cig &amp; Phone</a>
+    <a href="home-sos-mobile.html"><img src="result_0.png">SOS Info.Mobile</a>
+    <a href="home-le-smartelier.html" class="cur"><img src="erasebg-transformed.png">Le Smart'elier</a>
+  </div>
+  <nav><ul>
+    <li><a href="home-le-smartelier.html" class="active">Accueil</a></li>
+    <li><a href="reparation-smartelier.html">Réparation</a></li>
+    <li><a href="protection-smartelier.html">Protection</a></li>
+    <li><a href="index.html">Nos boutiques</a></li>
+  </ul></nav>
+</header>
+<main>
+  <section class="hero">
+    <h1>Le <span>Smart'elier</span>, votre boutique de confiance</h1>
+    <p>Réparation, reconditionné et conseil autour des téléphones, tablettes et ordinateurs à Machecoul.</p>
+    <a class="cta" href="reparation-smartelier.html">Découvrir les services</a>
+  </section>
+  <section class="cards">
+    <div class="card"><h3>Réparation rapide</h3><p>Écrans, batteries, connectiques et dépannages logiciels réalisés avec soin.</p></div>
+    <div class="card"><h3>Reconditionné garanti</h3><p>Des appareils testés, nettoyés et prêts à l'emploi avec une vraie garantie de qualité.</p></div>
+    <div class="card"><h3>Conseil personnalisé</h3><p>Une équipe à l'écoute pour vous aider à choisir le meilleur appareil ou accessoire.</p></div>
+  </section>
+</main>
+<footer>Le Smart'elier — Réparation, reconditionné et conseil à Machecoul.</footer>
+</body>
+</html>
