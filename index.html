@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cig & Phone — Choisissez votre boutique</title>
+<title>Cig &amp; Phone — Choisissez votre boutique</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
@@ -22,20 +22,105 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
 .wheel{width:100%;height:100%;position:relative;transform-style:preserve-3d;}
 .hub-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) translateZ(0px);width:190px;height:230px;pointer-events:none;}
 #hub-canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 0 10px #00ff00) drop-shadow(0 0 24px rgba(0,255,0,0.4));}
-.card{position:absolute;width:clamp(240px,28vw,320px);height:clamp(340px,48vh,460px);top:50%;left:50%;border-radius:24px;overflow:hidden;border:2px solid #2a2a2a;transition:border-color .3s,box-shadow .3s;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:28px 22px;background-size:cover;background-position:center;}
-.card::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 30%,rgba(0,0,0,.15));z-index:1;}
+
+/* ===== CARDS ===== */
+.card{
+  position:absolute;
+  width:clamp(240px,28vw,320px);
+  height:clamp(340px,48vh,460px);
+  top:50%;left:50%;
+  border-radius:24px;
+  overflow:hidden;
+  border:2px solid #2a2a2a;
+  transition:border-color .3s,box-shadow .3s;
+  text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding:28px 22px;
+}
+.card::before{
+  content:'';
+  position:absolute;inset:0;
+  z-index:1;
+}
 .card:hover{border-color:var(--g);box-shadow:0 0 45px var(--gg);}
 .card-1{transform:translate(-50%,-50%) rotateY(0deg)   translateZ(clamp(260px,30vw,360px));}
 .card-2{transform:translate(-50%,-50%) rotateY(120deg) translateZ(clamp(260px,30vw,360px));}
 .card-3{transform:translate(-50%,-50%) rotateY(240deg) translateZ(clamp(260px,30vw,360px));}
-.card-1{background-image:url('cigandphone-pornic.png');background-position:center;background-size:cover;}
-.card-2{background-image:url('result_0.png');background-position:center;background-size:cover;}
-.card-3{background-image:url('erasebg-transformed.png');background-position:center;background-size:cover;}
+
+/* --- CARD 1 : Cig & Phone --- fond sombre tech avec teinte bleue-grise ---*/
+.card-1{
+  background-color: #0d1117;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(30,80,160,0.35) 0%, transparent 65%),
+    radial-gradient(ellipse at 80% 100%, rgba(0,200,255,0.12) 0%, transparent 55%);
+}
+.card-1 .logo-wrap{
+  position:absolute;inset:0;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  padding:30px 20px 90px;
+}
+.card-1 .logo-wrap img{
+  width:100%;max-width:220px;
+  object-fit:contain;
+  filter:drop-shadow(0 4px 18px rgba(0,150,255,0.4));
+}
+.card-1::before{
+  background:linear-gradient(to top,rgba(0,0,0,.92) 28%,rgba(0,0,0,.1) 70%,transparent);
+}
+
+/* --- CARD 2 : SOS Info.Mobile --- fond orange ---*/
+.card-2{
+  background-color: #FF6B00;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255,180,0,0.55) 0%, transparent 65%),
+    radial-gradient(ellipse at 20% 100%, rgba(200,40,0,0.3) 0%, transparent 60%);
+}
+.card-2 .logo-wrap{
+  position:absolute;inset:0;z-index:1;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding-top:28px;
+  padding-left:16px;
+  padding-right:16px;
+}
+.card-2 .logo-wrap img{
+  width:75%;max-width:180px;
+  object-fit:contain;
+  filter:drop-shadow(0 3px 12px rgba(0,0,0,0.45));
+}
+.card-2::before{
+  background:linear-gradient(to top,rgba(0,0,0,.88) 30%,rgba(0,0,0,.05) 65%,transparent);
+}
+
+/* --- CARD 3 : Le Smart'elier --- fond bois (canvas) ---*/
+.card-3{
+  background-color:#3d2209;
+}
+#wood-canvas{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  z-index:0;
+  border-radius:24px;
+}
+.card-3 .logo-wrap{
+  position:absolute;inset:0;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  padding:30px 20px 90px;
+}
+.card-3 .logo-wrap img{
+  width:100%;max-width:220px;
+  object-fit:contain;
+  filter:drop-shadow(0 3px 14px rgba(0,0,0,0.6));
+}
+.card-3::before{
+  background:linear-gradient(to top,rgba(0,0,0,.88) 28%,rgba(0,0,0,.08) 65%,transparent);
+}
+
 .card-inner{position:relative;z-index:2;text-align:center;width:100%;}
 .card-inner h2{font-size:clamp(18px,2.2vw,24px);font-weight:800;text-transform:uppercase;color:#fff;line-height:1.2;text-shadow:0 2px 10px rgba(0,0,0,.9);}
-.card-inner .city{font-size:13px;color:#bbb;margin-top:6px;letter-spacing:1px;}
+.card-inner .city{font-size:13px;color:#ddd;margin-top:6px;letter-spacing:1px;}
 .card-inner .btn-go{display:inline-block;margin-top:16px;background:var(--g);color:#000;font-size:13px;font-weight:800;padding:10px 28px;border-radius:30px;text-transform:uppercase;letter-spacing:2px;box-shadow:0 0 18px var(--gg);transition:transform .2s,box-shadow .2s;}
 .card:hover .btn-go{transform:scale(1.07);box-shadow:0 0 30px var(--g);}
+
 .hint{position:relative;z-index:10;margin-top:18px;font-size:12px;color:#555;letter-spacing:2px;text-transform:uppercase;animation:blink 2.5s infinite;}
 @keyframes scan{0%{top:0}50%{top:100%}100%{top:0}}
 @keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
@@ -48,6 +133,8 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
   .hub-wrap{width:130px;height:160px;}
   .scene{height:58vh;}
   .top img{width:200px;}
+  .card-1 .logo-wrap img,.card-3 .logo-wrap img{max-width:140px;}
+  .card-2 .logo-wrap img{max-width:120px;}
 }
 </style>
 </head>
@@ -61,21 +148,31 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
 <div class="scene" id="scene">
   <div class="wheel" id="wheel">
     <div class="hub-wrap"><canvas id="hub-canvas"></canvas></div>
+
+    <!-- CARD 1 : Cig & Phone -->
     <a href="transition.html?to=cigphone" class="card card-1">
+      <div class="logo-wrap"><img src="cigandphone-pornic (3).png" alt="Logo Cig &amp; Phone"></div>
       <div class="card-inner">
         <h2>Cig &amp; Phone</h2>
         <div class="city">📍 Pornic (44210)</div>
         <span class="btn-go">Y aller →</span>
       </div>
     </a>
+
+    <!-- CARD 2 : SOS Info.Mobile -->
     <a href="transition.html?to=sosinfo" class="card card-2">
+      <div class="logo-wrap"><img src="result_0.png" alt="Logo SOS Info.Mobile"></div>
       <div class="card-inner">
         <h2>SOS Info.Mobile</h2>
         <div class="city">📍 Saint-Philbert-de-Grand-Lieu (44310)</div>
         <span class="btn-go">Y aller →</span>
       </div>
     </a>
+
+    <!-- CARD 3 : Le Smart'elier -->
     <a href="transition.html?to=smartelier" class="card card-3">
+      <canvas id="wood-canvas"></canvas>
+      <div class="logo-wrap"><img src="erasebg-transformed.png" alt="Logo Le Smart'elier"></div>
       <div class="card-inner">
         <h2>Le Smart'elier</h2>
         <div class="city">📍 Machecoul-Saint-Même (44270)</div>
@@ -87,6 +184,7 @@ body{background:var(--dc);color:#fff;font-family:'Poppins',sans-serif;display:fl
 <p class="hint">↔ Glisser • Molette • Cliquez pour entrer</p>
 
 <script>
+/* ===== ROUE ===== */
 const wheel = document.getElementById('wheel');
 const BASE_SPEED = 360 / 28000;
 let curAngle = 0, extraVel = 0, lastTs = performance.now(), raf;
@@ -105,6 +203,7 @@ document.addEventListener('touchmove',e=>moveDrag(e.touches[0].clientX),{passive
 document.addEventListener('touchend',endDrag);
 document.addEventListener('wheel',e=>{e.preventDefault();extraVel+=-e.deltaY*0.03;},{passive:false});
 
+/* ===== HUB 3D ===== */
 (function(){
   const canvas=document.getElementById('hub-canvas');
   const W=canvas.offsetWidth||190,H=canvas.offsetHeight||230;
@@ -148,6 +247,84 @@ document.addEventListener('wheel',e=>{e.preventDefault();extraVel+=-e.deltaY*0.0
     mW.opacity=0.3+0.18*p;mE.opacity=0.65+0.25*p;ring1.material.opacity=0.18+0.14*p;mL.opacity=0.12+0.1*p;
     renderer.render(scene3,camera);
   })();
+})();
+
+/* ===== WOOD CANVAS (card Smart'elier) ===== */
+(function(){
+  function drawWood(){
+    var card=document.querySelector('.card-3');
+    var cnv=document.getElementById('wood-canvas');
+    if(!card||!cnv)return;
+    var W=card.offsetWidth||320,H=card.offsetHeight||460;
+    cnv.width=W;cnv.height=H;
+    var ctx=cnv.getContext('2d');
+    // fond bois de base
+    var bg=ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#4a2c0a');
+    bg.addColorStop(0.25,'#6b3d12');
+    bg.addColorStop(0.5,'#7d4a18');
+    bg.addColorStop(0.75,'#5e3510');
+    bg.addColorStop(1,'#3d2209');
+    ctx.fillStyle=bg;
+    ctx.fillRect(0,0,W,H);
+    // veines de bois
+    var rng=function(seed){
+      var x=Math.sin(seed+1)*10000;
+      return x-Math.floor(x);
+    };
+    ctx.globalAlpha=1;
+    for(var i=0;i<38;i++){
+      var seed=i*137.508;
+      var y0=rng(seed)*H;
+      var amp=6+rng(seed+1)*18;
+      var freq=0.008+rng(seed+2)*0.012;
+      var col=rng(seed+3)>0.5?'rgba(30,12,2,':'rgba(100,55,15,';
+      var alp=(0.10+rng(seed+4)*0.22).toFixed(2);
+      ctx.beginPath();
+      ctx.strokeStyle=col+alp+')';
+      ctx.lineWidth=0.8+rng(seed+5)*2.5;
+      ctx.moveTo(0,y0);
+      for(var x=0;x<=W;x+=3){
+        var yv=y0+Math.sin(x*freq+seed)*amp+Math.sin(x*freq*2.3+seed*0.7)*amp*0.4;
+        ctx.lineTo(x,yv);
+      }
+      ctx.stroke();
+    }
+    // noeuds
+    var knots=[
+      {x:W*0.22,y:H*0.18},{x:W*0.72,y:H*0.44},{x:W*0.38,y:H*0.68},{x:W*0.80,y:H*0.80}
+    ];
+    knots.forEach(function(k,ki){
+      var kr=18+rng(ki*77)*22;
+      for(var r=kr;r>0;r-=2){
+        var a=ctx.createRadialGradient(k.x,k.y,0,k.x,k.y,kr);
+        a.addColorStop(0,'rgba(20,8,2,0.55)');
+        a.addColorStop(0.4,'rgba(50,22,5,0.28)');
+        a.addColorStop(1,'rgba(90,45,10,0)');
+        ctx.beginPath();
+        ctx.arc(k.x,k.y,r,0,Math.PI*2);
+        ctx.fillStyle=a;
+        ctx.fill();
+      }
+    });
+    // grain subtil
+    ctx.globalAlpha=0.025;
+    for(var g=0;g<W*H/80;g++){
+      var gx=Math.random()*W,gy=Math.random()*H;
+      ctx.fillStyle=Math.random()>0.5?'#fff':'#000';
+      ctx.fillRect(gx,gy,1,1);
+    }
+    ctx.globalAlpha=1;
+    // vignette
+    var vig=ctx.createRadialGradient(W/2,H/2,H*0.2,W/2,H/2,H*0.85);
+    vig.addColorStop(0,'rgba(0,0,0,0)');
+    vig.addColorStop(1,'rgba(0,0,0,0.38)');
+    ctx.fillStyle=vig;
+    ctx.fillRect(0,0,W,H);
+  }
+  // Attendre que la card soit dimensionnée
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',drawWood);}else{drawWood();}
+  window.addEventListener('resize',drawWood);
 })();
 </script>
 </body>
