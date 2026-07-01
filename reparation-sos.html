@@ -9,13 +9,13 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;}
 body{background:var(--dc);color:#fff;overflow-x:hidden;line-height:1.6;}#tm{display:none;}
 header{background:linear-gradient(135deg,#2b1307 0%,#7a2400 40%,#ff6b00 100%);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.25);position:relative;z-index:100;}
-.header-top{position:relative;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;min-height:72px;}
+.header-top{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;min-height:72px;}
 .bi{width:28px;height:20px;display:none;flex-direction:column;justify-content:space-between;cursor:pointer;z-index:120;flex-shrink:0;position:relative;z-index:2;}
 .bi span{display:block;width:100%;height:3px;background:#fff;border-radius:2px;transition:all .3s;}
-.header-side{display:flex;align-items:center;min-width:0;flex:0 0 auto;position:relative;z-index:2;}
+.header-side{display:flex;align-items:center;min-width:160px;position:relative;z-index:2;}
 .header-side.right{justify-content:flex-end;}
-.lc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;justify-content:center;align-items:center;z-index:1;pointer-events:none;}
-.lc img{width:260px;max-width:100%;height:auto;display:block;object-fit:contain;}
+.lc{flex:1;display:flex;justify-content:center;align-items:center;pointer-events:none;}
+.lc img{width:260px;max-width:100%;height:auto;display:block;}
 .shp{display:flex;align-items:center;gap:14px;flex-shrink:0;position:relative;z-index:2;}
 .soc-btn{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;transition:transform .2s;}
 .soc-btn:hover{transform:translateY(-2px);}
@@ -68,7 +68,7 @@ nav a:hover{color:#fff;}
 .tw iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
 .fb2{text-align:center;padding:15px 20px;border-top:1px solid #2a2a2a;color:#666;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;}
 .fb2 span{color:var(--gt);}
-@media(max-width:768px){header{padding:0;}.header-top{padding:10px 12px;min-height:72px;}.bi{display:flex;}.lc img{width:150px;}.shp{gap:10px;}.soc-icon{width:34px;height:34px;}.soc-icon svg{width:16px;height:16px;}.soc-label{font-size:8px;}.repair-hero h1{font-size:24px;}.quali-banner{flex-direction:column;text-align:center;}.services-container{padding:0 15px;}nav ul{display:none;flex-direction:column;gap:0;width:100%;padding:8px 0 0;margin-top:10px;border-top:1px solid #eee;background:#fff;}nav a{width:100%;padding:12px 20px;border-bottom:1px solid #f9f9f9;font-size:13px;}#tm:checked ~ header nav ul{display:flex;}#tm:checked ~ header .bi span:nth-child(1){transform:translateY(8px) rotate(45deg);}#tm:checked ~ header .bi span:nth-child(2){opacity:0;}#tm:checked ~ header .bi span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}.mag-sw a{font-size:9px;padding:4px 8px;}}
+@media(max-width:768px){header{padding:0;}.header-top{padding:10px 12px;}.bi{display:flex;}.lc img{width:150px;}.shp{gap:10px;}.soc-icon{width:34px;height:34px;}.soc-icon svg{width:16px;height:16px;}.soc-label{font-size:8px;}.repair-hero h1{font-size:24px;}.quali-banner{flex-direction:column;text-align:center;}.services-container{padding:0 15px;}nav ul{display:none;flex-direction:column;gap:0;width:100%;padding:8px 0 0;margin-top:10px;border-top:1px solid #eee;background:#fff;}nav a{width:100%;padding:12px 20px;border-bottom:1px solid #f9f9f9;font-size:13px;}#tm:checked ~ header nav ul{display:flex;}#tm:checked ~ header .bi span:nth-child(1){transform:translateY(8px) rotate(45deg);}#tm:checked ~ header .bi span:nth-child(2){opacity:0;}#tm:checked ~ header .bi span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}.mag-sw a{font-size:9px;padding:4px 8px;}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes cgt{0%,100%{text-shadow:0 0 8px var(--gg)}50%{text-shadow:0 0 18px var(--gn),0 0 25px var(--gt)}}
 </style>
@@ -77,21 +77,25 @@ nav a:hover{color:#fff;}
 <input type="checkbox" id="tm">
 <header>
   <div class="header-top">
-    <label for="tm" class="bi"><span></span><span></span><span></span></label>
+    <div class="header-side">
+      <label for="tm" class="bi"><span></span><span></span><span></span></label>
+    </div>
     <div class="lc"><img src="result_0.png" alt="Logo SOS Info.Mobile"></div>
-    <div class="shp">
-      <a href="https://www.facebook.com/sos.info.mobile" target="_blank" class="soc-btn soc-fb">
-        <div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
-        <span class="soc-label">Facebook</span>
-      </a>
-      <a href="https://www.instagram.com/sos.info.mobile/" target="_blank" class="soc-btn soc-ig">
-        <div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
-        <span class="soc-label">Instagram</span>
-      </a>
-      <a href="https://www.tiktok.com/@sos.info.mobile" target="_blank" class="soc-btn soc-tt">
-        <div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg></div>
-        <span class="soc-label">TikTok</span>
-      </a>
+    <div class="header-side right">
+      <div class="shp">
+        <a href="https://www.facebook.com/sos.info.mobile" target="_blank" class="soc-btn soc-fb">
+          <div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+          <span class="soc-label">Facebook</span>
+        </a>
+        <a href="https://www.instagram.com/sos.info.mobile/" target="_blank" class="soc-btn soc-ig">
+          <div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+          <span class="soc-label">Instagram</span>
+        </a>
+        <a href="https://www.tiktok.com/@sos.info.mobile" target="_blank" class="soc-btn soc-tt">
+          <div class="soc-icon"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg></div>
+          <span class="soc-label">TikTok</span>
+        </a>
+      </div>
     </div>
   </div>
   <div class="mag-sw">
